@@ -14,7 +14,7 @@ const Blog = () => {
                             <article className="post">
                                 <figure className="post-thumbnail">
                                     <a href="/">
-                                        <img src={"../../assets/images/blogs/blog-3.jpg"} alt="But I must explain to you how all this mistaken idea" />
+                                        <img src={"/images/blogs/blog-3.jpg"} alt="But I must explain to you how all this mistaken idea" />
                                     </a>
                                 </figure>
 
@@ -66,7 +66,7 @@ const Blog = () => {
                             <article className="post">
                                 <figure className="post-thumbnail">
                                     <a href="/">
-                                        <img src={"../../assets/images/blogs/blog-5.jpg"} alt="But I must explain to you how all this mistaken idea" />
+                                        <img src={"/images/blogs/blog-5.jpg"} alt="But I must explain to you how all this mistaken idea" />
                                     </a>
                                 </figure>
 
@@ -117,7 +117,7 @@ const Blog = () => {
                             <article className="post">
                                 <figure className="post-thumbnail">
                                     <a href="/">
-                                        <img src={"../../assets/images/blogs/blog-1.jpg"} alt="But I must explain to you how all this mistaken idea" />
+                                        <img src={"/images/blogs/blog-1.jpg"} alt="But I must explain to you how all this mistaken idea" />
                                     </a>
                                 </figure>
 
@@ -312,7 +312,7 @@ const Blog = () => {
                             <img
                                 width="1280"
                                 height="1750"
-                                src={"../../assets/images/sidebar-banner.gif"}
+                                src={"/images/sidebar-banner.gif"}
                                 className="image wp-image-1184 attachment-full size-full"
                                 alt=""
                                 style={{ maxWidth: '100%', height: 'auto' }}

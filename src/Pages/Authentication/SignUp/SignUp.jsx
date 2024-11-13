@@ -17,7 +17,7 @@ const SignUp = () => {
                                 <img
                                     className="img-fluid rounded mb-4"
                                     loading="lazy"
-                                    src={"../../../assets/images/Logo.png"}
+                                    src={"/images/Logo.png"}
                                     alt="Liceria Logo"
                                 />
                                 <hr className="border-primary-subtle mb-4" />

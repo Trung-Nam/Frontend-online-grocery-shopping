@@ -12,7 +12,7 @@ const SliderItem = () => {
                 <a href="/">
                     <img
                         decoding="async"
-                        src={'../../../assets/images/product-image.jpg'}
+                        src={'..//images/product-image.jpg'}
                         alt="Weather's Original Caramel Hard Candies"
                         className='w-100'
                     />

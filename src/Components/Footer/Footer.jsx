@@ -46,7 +46,7 @@ const Footer = () => {
                         <div className="col-12 col-lg-7">
                             <div className="subscribe-image">
                                 <img
-                                    src={'../../assets/images/coupon.png'}
+                                    src={'/images/coupon.png'}
                                     alt="subscribe"
                                     className="img-fluid"
                                 />
@@ -310,10 +310,10 @@ const Footer = () => {
                             </div>
                             <div className="app-buttons">
                                 <a href="/" className="google-play">
-                                    <img src={'../../assets/images/google-play.jpg'} alt="app" />
+                                    <img src={'/images/google-play.jpg'} alt="app" />
                                 </a>
                                 <a href="/" className="google-play">
-                                    <img src={'../../assets/images/app-store.jpg'} alt="app" />
+                                    <img src={'/images/app-store.jpg'} alt="app" />
                                 </a>
                             </div>
                         </div>

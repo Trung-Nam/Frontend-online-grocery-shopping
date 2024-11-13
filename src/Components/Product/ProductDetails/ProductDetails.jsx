@@ -439,7 +439,7 @@ const ProductDetails = () => {
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                     >
-                                                        <img src={"../../../assets/images/social media/facebook.png"} alt="facebook-icon" />
+                                                        <img src={"..//images/social media/facebook.png"} alt="facebook-icon" />
                                                     </a>
                                                 </li>
                                                 <li>
@@ -449,7 +449,7 @@ const ProductDetails = () => {
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                     >
-                                                        <img src={"../../../assets/images/social media/twitter.png"} alt="twitter-icon" />
+                                                        <img src={"..//images/social media/twitter.png"} alt="twitter-icon" />
                                                     </a>
                                                 </li>
                                                 <li>
@@ -459,7 +459,7 @@ const ProductDetails = () => {
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                     >
-                                                        <img src={"../../../assets/images/social media/pinterest.png"} alt="pinterest-icon" />
+                                                        <img src={"..//images/social media/pinterest.png"} alt="pinterest-icon" />
                                                     </a>
                                                 </li>
                                                 <li>
@@ -469,7 +469,7 @@ const ProductDetails = () => {
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                     >
-                                                        <img src={"../../../assets/images/social media/linkedin.png"} alt="linkedin-icon" />
+                                                        <img src={"..//images/social media/linkedin.png"} alt="linkedin-icon" />
                                                     </a>
                                                 </li>
                                                 <li>
@@ -479,7 +479,7 @@ const ProductDetails = () => {
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                     >
-                                                        <img src={"../../../assets/images/social media/reddit.png"} alt="reddit-icon" />
+                                                        <img src={"..//images/social media/reddit.png"} alt="reddit-icon" />
                                                     </a>
                                                 </li>
                                                 <li>
@@ -489,7 +489,7 @@ const ProductDetails = () => {
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                     >
-                                                        <img src={"../../../assets/images/social media/whatsapp.png"} alt="whatsapp-icon" />
+                                                        <img src={"..//images/social media/whatsapp.png"} alt="whatsapp-icon" />
                                                     </a>
                                                 </li>
                                             </ul>

@@ -186,7 +186,7 @@ const Shop = () => {
                                             <img
                                                 width="1280"
                                                 height="1750"
-                                                src={"../../assets/images/sidebar-banner.gif"}
+                                                src={"/images/sidebar-banner.gif"}
                                                 className="image wp-image-1184 attachment-full size-full"
                                                 alt=""
                                                 style={{ maxWidth: '100%', height: 'auto' }}
