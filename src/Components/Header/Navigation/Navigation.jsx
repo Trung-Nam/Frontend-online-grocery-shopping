@@ -3,8 +3,9 @@ import { IoIosMenu } from 'react-icons/io';
 import { FaAngleDown } from 'react-icons/fa6';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
-import Dropdown from './Dropdown/Dropdown';
-import categories from '../../Constants/Data';
+import Dropdown from '../Dropdown/Dropdown';
+import categories from '../../../Constants/Data';
+import "./Navigation.scss"
 
 const Navigation = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);

@@ -6,7 +6,8 @@ import './Header.scss';
 import { FiUser } from 'react-icons/fi';
 import { TbShoppingBag } from 'react-icons/tb';
 import Search from './Search/Search';
-import Navigation from './Navigation';
+import Navigation from './Navigation/Navigation';
+
 
 const Header = () => {
     return (
@@ -22,7 +23,7 @@ const Header = () => {
             <div className="header">
                 <div className="container">
                     <div className="row align-items-center">
-                        <div className="column-left col-sm-2 d-flex align-items-center justify-content-center justify-content-sm-start">
+                        <div className="column-left col-sm-2 d-flex align-items-center justify-content-center">
                             <Link to="/">
                                 <img src={Logo} alt="Logo" className="img-fluid" />
                             </Link>
@@ -35,7 +36,7 @@ const Header = () => {
                             {/* Header search end */}
                         </div>
 
-                        <div className="column-right col-sm-2 d-flex align-items-center justify-content-center">
+                        <div className="column-right col-sm-2 d-flex align-items-center justify-content-between">
                             {/* when user is not logged in*/}
                             {/* <a class="btn btn-primary signin-btn" href="/signin" role="button">SIGN IN</a> */}
 
