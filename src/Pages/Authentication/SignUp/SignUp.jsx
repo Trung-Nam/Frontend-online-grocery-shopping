@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './SignUp.scss'
 
 const SignUp = () => {
@@ -17,7 +17,7 @@ const SignUp = () => {
                                 <img
                                     className="img-fluid rounded mb-4"
                                     loading="lazy"
-                                    src={require("../../../assets/images/Logo.png")}
+                                    src={"/images/Logo.png"}
                                     alt="Liceria Logo"
                                 />
                                 <hr className="border-primary-subtle mb-4" />

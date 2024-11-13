@@ -1,4 +1,3 @@
-import React from 'react'
 import Carousel from '../../Components/Header/Carousel/Carousel'
 import './Home.scss'
 import Slider from 'react-slick'
@@ -12,6 +11,7 @@ import QuickViewProduct from '../../Components/Product/QuickViewProduct/QuickVie
 const Home = () => {
 
     const CustomPrevArrow = (props) => {
+        // eslint-disable-next-line react/prop-types
         const { className, style, onClick } = props;
         return (
             <div
@@ -37,6 +37,7 @@ const Home = () => {
     }
 
     const CustomNextArrow = (props) => {
+        // eslint-disable-next-line react/prop-types
         const { className, style, onClick } = props;
         return (
             <div
@@ -96,7 +97,7 @@ const Home = () => {
                                             </div>
                                         </div>
                                         <div className="banner-thumbnail">
-                                            <img decoding="async" src={require('../../assets/images/widget-1.jpg')} alt="banner" className="rounded-3" />
+                                            <img decoding="async" src={'/images/widget-1.jpg'} alt="banner" className="rounded-3" />
                                         </div>
                                         <a href="/" className="overlay-link">
                                         </a>
@@ -126,7 +127,7 @@ const Home = () => {
                                                 </div>
                                             </div>
                                             <div className="banner-thumbnail">
-                                                <img decoding="async" src={require('../../assets/images/widget-2.jpg')} alt="banner" className="rounded-3" />
+                                                <img decoding="async" src={'/images/widget-2.jpg'} alt="banner" className="rounded-3" />
                                             </div>
                                             <a href="/" className="overlay-link">
                                             </a>
@@ -149,7 +150,7 @@ const Home = () => {
                                     <div className="icon">
                                         <FaListCheck size={28} />
                                     </div>
-                                    <div className="text">Order now so you don't miss the opportunities.</div>
+                                    <div className="text">{"Order now so you don't miss the opportunities."}</div>
                                 </div>
                                 <div className="item">
                                     <div className="icon">
@@ -169,7 +170,7 @@ const Home = () => {
                                     <div className="product-wrapper">
                                         <div className="thumbnail-wrapper">
                                             <a href="/" title="USDA Choice Angus Beef Stew Meat">
-                                                <img decoding="async" className="w-100" src={require('../../assets/images/product-image-3.jpg')} alt="USDA Choice Angus Beef Stew Meat" />
+                                                <img decoding="async" className="w-100" src={'/images/product-image-3.jpg'} alt="USDA Choice Angus Beef Stew Meat" />
                                             </a>
                                         </div>
                                         <div className="content-wrapper">
@@ -204,7 +205,7 @@ const Home = () => {
                                     <div className="product-wrapper">
                                         <div className="thumbnail-wrapper">
                                             <a href="/" title="USDA Choice Angus Beef Stew Meat">
-                                                <img decoding="async" className="w-100" src={require('../../assets/images/product-image-3.jpg')} alt="USDA Choice Angus Beef Stew Meat" />
+                                                <img decoding="async" className="w-100" src={'/images/product-image-3.jpg'} alt="USDA Choice Angus Beef Stew Meat" />
                                             </a>
                                         </div>
                                         <div className="content-wrapper">
@@ -239,7 +240,7 @@ const Home = () => {
                                     <div className="product-wrapper">
                                         <div className="thumbnail-wrapper">
                                             <a href="/" title="USDA Choice Angus Beef Stew Meat">
-                                                <img decoding="async" className="w-100" src={require('../../assets/images/product-image-3.jpg')} alt="USDA Choice Angus Beef Stew Meat" />
+                                                <img decoding="async" className="w-100" src={'/images/product-image-3.jpg'} alt="USDA Choice Angus Beef Stew Meat" />
                                             </a>
                                         </div>
                                         <div className="content-wrapper">
@@ -274,7 +275,7 @@ const Home = () => {
                                     <div className="product-wrapper">
                                         <div className="thumbnail-wrapper">
                                             <a href="/" title="USDA Choice Angus Beef Stew Meat">
-                                                <img decoding="async" className="w-100" src={require('../../assets/images/product-image-3.jpg')} alt="USDA Choice Angus Beef Stew Meat" />
+                                                <img decoding="async" className="w-100" src={'/images/product-image-3.jpg'} alt="USDA Choice Angus Beef Stew Meat" />
                                             </a>
                                         </div>
                                         <div className="content-wrapper">
@@ -309,7 +310,7 @@ const Home = () => {
                                     <div className="product-wrapper">
                                         <div className="thumbnail-wrapper">
                                             <a href="/" title="USDA Choice Angus Beef Stew Meat">
-                                                <img decoding="async" className="w-100" src={require('../../assets/images/product-image-3.jpg')} alt="USDA Choice Angus Beef Stew Meat" />
+                                                <img decoding="async" className="w-100" src={'/images/product-image-3.jpg'} alt="USDA Choice Angus Beef Stew Meat" />
                                             </a>
                                         </div>
                                         <div className="content-wrapper">
@@ -356,7 +357,7 @@ const Home = () => {
                                         </div>
                                         <div className="customer">
                                             <div className="avatar">
-                                                <img decoding="async" className='w-100' src={require('../../assets/images/avatar.jpg')} alt="testimonial" />
+                                                <img decoding="async" className='w-100' src={'/images/avatar.jpg'} alt="testimonial" />
                                             </div>
                                             <div className="detail">
                                                 <h3 className="customer-name">Tina Mcdonnell</h3>
@@ -397,7 +398,7 @@ const Home = () => {
                                 <h3 className="entry-title mini color-text-lighter">In store or online your health &amp; safety is our top priority.</h3>
                             </div>
                             <div className="banner-thumbnail">
-                                <img decoding="async" src={require('../../assets/images/banner-box1.jpg')} alt="banner" />
+                                <img decoding="async" src={'/images/banner-box1.jpg'} alt="banner" />
                             </div>
                             {/* <a href="/" className="overlay-link"></a> */}
                         </div>
@@ -420,7 +421,7 @@ const Home = () => {
                             <div className="hot-product-content d-flex">
                                 <div className="thumbnail-wrapper col-3">
                                     <a href="/" title="Chobani Complete Vanilla Greek Yogurt">
-                                        <img decoding="async" className='w-100' src={require('../../assets/images/product-image-2.jpg')} alt="Chobani Complete Vanilla Greek Yogurt" />
+                                        <img decoding="async" className='w-100' src={'/images/product-image-2.jpg'} alt="Chobani Complete Vanilla Greek Yogurt" />
                                     </a>
                                 </div>
 
@@ -514,7 +515,7 @@ const Home = () => {
                                     <a href="/" className="button button-info-dark rounded xsmall">Shop Now</a>
                                 </div>
                                 <div className="banner-thumbnail">
-                                    <img decoding="async" src={require('../../assets/images/bacola-banner-1.jpg')} alt="banner" />
+                                    <img decoding="async" src={'/images/bacola-banner-1.jpg'} alt="banner" />
                                 </div>
                             </div>
 
@@ -533,7 +534,7 @@ const Home = () => {
                                     <a href="/" className="button button-info-dark rounded xsmall">Shop Now</a>
                                 </div>
                                 <div className="banner-thumbnail">
-                                    <img decoding="async" src={require('../../assets/images/bacola-banner-2.jpg')} alt="banner" />
+                                    <img decoding="async" src={'/images/bacola-banner-2.jpg'} alt="banner" />
                                 </div>
                             </div>
 
@@ -555,7 +556,7 @@ const Home = () => {
                                     <a href="/">
                                         <img
                                             decoding="async"
-                                            src={require('../../assets/images/baverages-1.jpg')}
+                                            src={'/images/baverages-1.jpg'}
                                             alt="Beverages"
                                             className='w-100'
                                         />
@@ -576,7 +577,7 @@ const Home = () => {
                                     <a href="/">
                                         <img
                                             decoding="async"
-                                            src={require('../../assets/images/biscuitssnacks-1.jpg')}
+                                            src={'/images/biscuitssnacks-1.jpg'}
                                             alt="Biscuits & Snacks"
                                         />
                                     </a>
@@ -593,7 +594,7 @@ const Home = () => {
                                     <a href="/">
                                         <img
                                             decoding="async"
-                                            src={require('../../assets/images/biscuitssnacks-1.jpg')}
+                                            src={'/images/biscuitssnacks-1.jpg'}
                                             alt="Biscuits & Snacks"
                                         />
                                     </a>
@@ -610,7 +611,7 @@ const Home = () => {
                                     <a href="/">
                                         <img
                                             decoding="async"
-                                            src={require('../../assets/images/biscuitssnacks-1.jpg')}
+                                            src={'/images/biscuitssnacks-1.jpg'}
                                             alt="Biscuits & Snacks"
                                         />
                                     </a>
@@ -627,7 +628,7 @@ const Home = () => {
                                     <a href="/">
                                         <img
                                             decoding="async"
-                                            src={require('../../assets/images/biscuitssnacks-1.jpg')}
+                                            src={'/images/biscuitssnacks-1.jpg'}
                                             alt="Biscuits & Snacks"
                                         />
                                     </a>
@@ -644,7 +645,7 @@ const Home = () => {
                                     <a href="/">
                                         <img
                                             decoding="async"
-                                            src={require('../../assets/images/biscuitssnacks-1.jpg')}
+                                            src={'/images/biscuitssnacks-1.jpg'}
                                             alt="Biscuits & Snacks"
                                         />
                                     </a>
@@ -661,7 +662,7 @@ const Home = () => {
                                     <a href="/">
                                         <img
                                             decoding="async"
-                                            src={require('../../assets/images/biscuitssnacks-1.jpg')}
+                                            src={'/images/biscuitssnacks-1.jpg'}
                                             alt="Biscuits & Snacks"
                                         />
                                     </a>
@@ -678,7 +679,7 @@ const Home = () => {
                                     <a href="/">
                                         <img
                                             decoding="async"
-                                            src={require('../../assets/images/biscuitssnacks-1.jpg')}
+                                            src={'/images/biscuitssnacks-1.jpg'}
                                             alt="Biscuits & Snacks"
                                         />
                                     </a>
@@ -695,7 +696,7 @@ const Home = () => {
                                     <a href="/">
                                         <img
                                             decoding="async"
-                                            src={require('../../assets/images/biscuitssnacks-1.jpg')}
+                                            src={'/images/biscuitssnacks-1.jpg'}
                                             alt="Biscuits & Snacks"
                                         />
                                     </a>

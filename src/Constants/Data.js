@@ -1,7 +1,7 @@
 const categories = [
     {
         title: 'Fruits & Vegetables',
-        icon: require('../assets/images/vegetable.png'),
+        icon: '/images/vegetable.png',
         link: '/',
         submenu: [
             { title: 'Cuts & Sprouts', link: '/' },
@@ -15,19 +15,19 @@ const categories = [
     },
     {
         title: 'Meats & Seafood',
-        icon: require('../assets/images/barbecue.png'),
+        icon: '/images/barbecue.png',
         link: '/',
         submenu: [], // No submenu
     },
     {
         title: 'Breakfast & Dairy',
-        icon: require('../assets/images/english-breakfast.png'),
+        icon: '/images/english-breakfast.png',
         link: '/',
         submenu: [], // No submenu
     },
     {
         title: 'Beverages',
-        icon: require('../assets/images/healthy-drink.png'),
+        icon: '/images/healthy-drink.png',
         link: '/',
         submenu: [
             { title: 'Coffee', link: '/' },
@@ -43,25 +43,25 @@ const categories = [
     },
     {
         title: 'Breads & Bakery',
-        icon: require('../assets/images/bread.png'),
+        icon: '/images/bread.png',
         link: '/',
         submenu: [], // No submenu
     },
     {
         title: 'Frozen Foods',
-        icon: require('../assets/images/frozen-food.png'),
+        icon: '/images/frozen-food.png',
         link: '/',
         submenu: [], // No submenu
     },
     {
         title: 'Biscuits & Snacks',
-        icon: require('../assets/images/bar.png'),
+        icon: '/images/bar.png',
         link: '/',
         submenu: [], // No submenu
     },
     {
         title: 'Grocery & Staples',
-        icon: require('../assets/images/basket.png'),
+        icon: '/images/basket.png',
         link: '/',
         submenu: [], // No submenu
     },

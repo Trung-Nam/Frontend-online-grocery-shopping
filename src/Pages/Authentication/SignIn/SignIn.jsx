@@ -1,4 +1,3 @@
-import React from 'react';
 import './SignIn.scss'
 
 function SignIn() {
@@ -12,7 +11,7 @@ function SignIn() {
                                 <img
                                     className="img-fluid rounded mb-4"
                                     loading="lazy"
-                                    src={require("../../../assets/images/Logo.png")}
+                                    src={"..//images/Logo.png"}
                                     alt="Liceria Logo"
                                 />
                                 <hr className="border-primary-subtle mb-4" />
@@ -28,7 +27,7 @@ function SignIn() {
                                     <div className="col-12">
                                         <div className="mb-4">
                                             <h3>Sign in</h3>
-                                            <p>Don't have an account? <a href="/signup" className="custom-color">Sign up</a></p>
+                                            <p>Do not have an account? <a href="/signup" className="custom-color">Sign up</a></p>
                                         </div>
                                     </div>
                                 </div>

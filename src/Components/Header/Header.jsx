@@ -1,8 +1,7 @@
-import React from 'react'
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Location from './Location/Location';
-import Logo from '../../assets/images/Logo.png'
+import Logo from '/images/Logo.png'
 import './Header.scss';
 import { FiUser } from 'react-icons/fi';
 import { TbShoppingBag } from 'react-icons/tb';

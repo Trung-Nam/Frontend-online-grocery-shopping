@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 
 
 
@@ -9,6 +9,7 @@ export const useLocation = () => {
     return useContext(LocationContext);
 };
 
+// eslint-disable-next-line react/prop-types
 export const LocationProvider = ({ children }) => {
     const [countries, setCountries] = useState([]);
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import './ProductDetails.scss';
 import { Rating } from '@mui/material';
 import Slider from 'react-slick/lib/slider';
@@ -16,6 +16,7 @@ import SliderItem from '../SliderItem/SliderItem';
 
 const ProductDetails = () => {
     const [nav1, setNav1] = useState(null);
+    // eslint-disable-next-line no-unused-vars
     const [nav2, setNav2] = useState(null);
     const [quantity, setQuantity] = useState(1);
 
@@ -58,7 +59,7 @@ const ProductDetails = () => {
                     <table className="table table-bordered">
                         <tr>
                             <td className="border text-center p-2">Brands</td>
-                            <td className="border text-center p-2">Welch's</td>
+                            <td className="border text-center p-2">{"Welch's"}</td>
                         </tr>
                     </table>
 
@@ -205,6 +206,7 @@ const ProductDetails = () => {
         }
     };
     const CustomPrevArrow = (props) => {
+        // eslint-disable-next-line react/prop-types
         const { className, style, onClick } = props;
         return (
             <div
@@ -230,6 +232,7 @@ const ProductDetails = () => {
     }
 
     const CustomNextArrow = (props) => {
+        // eslint-disable-next-line react/prop-types
         const { className, style, onClick } = props;
         return (
             <div
@@ -288,7 +291,7 @@ const ProductDetails = () => {
                                             <tr className="product-attributes-item">
                                                 <th className="product-attributes-item__label" scope="row">Brands:</th>
                                                 <td className="product-attributes-item__value">
-                                                    <p>Welch's</p>
+                                                    <p>{"Welch's"}</p>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -436,7 +439,7 @@ const ProductDetails = () => {
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                     >
-                                                        <img src={require("../../../assets/images/social media/facebook.png")} alt="facebook-icon" />
+                                                        <img src={"..//images/social media/facebook.png"} alt="facebook-icon" />
                                                     </a>
                                                 </li>
                                                 <li>
@@ -446,7 +449,7 @@ const ProductDetails = () => {
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                     >
-                                                        <img src={require("../../../assets/images/social media/twitter.png")} alt="twitter-icon" />
+                                                        <img src={"..//images/social media/twitter.png"} alt="twitter-icon" />
                                                     </a>
                                                 </li>
                                                 <li>
@@ -456,7 +459,7 @@ const ProductDetails = () => {
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                     >
-                                                        <img src={require("../../../assets/images/social media/pinterest.png")} alt="pinterest-icon" />
+                                                        <img src={"..//images/social media/pinterest.png"} alt="pinterest-icon" />
                                                     </a>
                                                 </li>
                                                 <li>
@@ -466,7 +469,7 @@ const ProductDetails = () => {
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                     >
-                                                        <img src={require("../../../assets/images/social media/linkedin.png")} alt="linkedin-icon" />
+                                                        <img src={"..//images/social media/linkedin.png"} alt="linkedin-icon" />
                                                     </a>
                                                 </li>
                                                 <li>
@@ -476,7 +479,7 @@ const ProductDetails = () => {
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                     >
-                                                        <img src={require("../../../assets/images/social media/reddit.png")} alt="reddit-icon" />
+                                                        <img src={"..//images/social media/reddit.png"} alt="reddit-icon" />
                                                     </a>
                                                 </li>
                                                 <li>
@@ -486,7 +489,7 @@ const ProductDetails = () => {
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                     >
-                                                        <img src={require("../../../assets/images/social media/whatsapp.png")} alt="whatsapp-icon" />
+                                                        <img src={"..//images/social media/whatsapp.png"} alt="whatsapp-icon" />
                                                     </a>
                                                 </li>
                                             </ul>
