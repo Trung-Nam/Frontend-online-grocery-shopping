@@ -1,4 +1,3 @@
-import React from 'react'
 import './Footer.scss'
 import { MdOutlineEmail } from 'react-icons/md'
 import { IoFastFoodOutline } from 'react-icons/io5'
@@ -47,7 +46,7 @@ const Footer = () => {
                         <div className="col-12 col-lg-7">
                             <div className="subscribe-image">
                                 <img
-                                    src={require('../../assets/images/coupon.png')}
+                                    src={'../../assets/images/coupon.png'}
                                     alt="subscribe"
                                     className="img-fluid"
                                 />
@@ -311,10 +310,10 @@ const Footer = () => {
                             </div>
                             <div className="app-buttons">
                                 <a href="/" className="google-play">
-                                    <img src={require('../../assets/images/google-play.jpg')} alt="app" />
+                                    <img src={'../../assets/images/google-play.jpg'} alt="app" />
                                 </a>
                                 <a href="/" className="google-play">
-                                    <img src={require('../../assets/images/app-store.jpg')} alt="app" />
+                                    <img src={'../../assets/images/app-store.jpg'} alt="app" />
                                 </a>
                             </div>
                         </div>

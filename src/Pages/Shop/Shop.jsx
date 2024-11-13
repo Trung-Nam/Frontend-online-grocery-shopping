@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { RiArrowRightSLine } from "react-icons/ri";
 import categories from '../../Constants/Data'
@@ -139,7 +139,7 @@ const Shop = () => {
                                         </div>
 
                                         <div className="product__brands">
-                                            <h4 class="product__brands-title">Brands</h4>
+                                            <h4 className="product__brands-title">Brands</h4>
                                             <ul className="layered-nav-list">
                                                 <li className="layered-nav-list__item">
                                                     <input type="checkbox" />
@@ -174,7 +174,7 @@ const Shop = () => {
                                                 <li className="layered-nav-list__item">
                                                     <input type="checkbox" />
                                                     <a rel="nofollow" href="/">
-                                                        Welch's
+                                                        {"Welch's"}
                                                     </a>
                                                     <span className="count">(10)</span>
                                                 </li>
@@ -186,7 +186,7 @@ const Shop = () => {
                                             <img
                                                 width="1280"
                                                 height="1750"
-                                                src={require("../../assets/images/sidebar-banner.gif")}
+                                                src={"../../assets/images/sidebar-banner.gif"}
                                                 className="image wp-image-1184 attachment-full size-full"
                                                 alt=""
                                                 style={{ maxWidth: '100%', height: 'auto' }}

@@ -1,5 +1,4 @@
 import { Rating } from '@mui/material'
-import React from 'react'
 import { FaRegHeart } from 'react-icons/fa6'
 import './SliderItem.scss'
 const SliderItem = () => {
@@ -13,7 +12,7 @@ const SliderItem = () => {
                 <a href="/">
                     <img
                         decoding="async"
-                        src={require('../../../assets/images/product-image.jpg')}
+                        src={'../../../assets/images/product-image.jpg'}
                         alt="Weather's Original Caramel Hard Candies"
                         className='w-100'
                     />

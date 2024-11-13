@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+/* eslint-disable no-unused-vars */
+import { useState } from 'react'
 import './Cart.scss'
 const Cart = () => {
     const [showAddressForm, setShowAddressForm] = useState(false);
     const [cartItems, setCartItems] = useState([
-        { id: 1, name: 'All Natural Italian-Style Chicken Meatballs', price: 7.25, quantity: 1, img: require('../../assets/images/product-image-2.jpg') },
-        { id: 2, name: "Angie's Boomchickapop Sweet & Salty Kettle Corn", price: 3.29, quantity: 1, img: require('../../assets/images/product-image-3.jpg') },
-        { id: 3, name: 'Field Roast Chao Cheese Creamy Original', price: 19.50, quantity: 1, img: require('../../assets/images/product-image-3.jpg') }
+        { id: 1, name: 'All Natural Italian-Style Chicken Meatballs', price: 7.25, quantity: 1, img: '../../assets/images/product-image-2.jpg' },
+        { id: 2, name: "Angie's Boomchickapop Sweet & Salty Kettle Corn", price: 3.29, quantity: 1, img: '../../assets/images/product-image-3.jpg' },
+        { id: 3, name: 'Field Roast Chao Cheese Creamy Original', price: 19.50, quantity: 1, img: '../../assets/images/product-image-3.jpg' }
     ]);
-    
+
     const [couponCode, setCouponCode] = useState('');
     const [shippingCost, setShippingCost] = useState(5.00);
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import './Product.scss'
 import { FaRegHeart } from 'react-icons/fa6'
 import { Rating } from '@mui/material'
@@ -13,7 +12,7 @@ const Product = () => {
                 <a href="/">
                     <img
                         decoding="async"
-                        src={require('../../../assets/images/product-image.jpg')}
+                        src={'../../../assets/images/product-image.jpg'}
                         alt="Weather's Original Caramel Hard Candies"
                         className='w-100'
                     />
