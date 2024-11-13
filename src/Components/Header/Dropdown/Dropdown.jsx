@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaAngleRight } from 'react-icons/fa6';
 import './Dropdown.scss';
 
+// eslint-disable-next-line react/prop-types
 const Dropdown = ({ items }) => {
     const [activeSubmenu, setActiveSubmenu] = useState(null);
 
