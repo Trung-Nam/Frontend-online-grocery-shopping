@@ -185,7 +185,6 @@
             margin-left: 25%;
             padding: 10px 18px;
             font-size: .75rem;
-            height: 2.125rem;
             text-decoration: none;
             color: var(--color-info-dark);
             background-color: transparent;
@@ -488,6 +487,16 @@
                 }
             }
         }
+    }
+
+    @media (max-width: 576px) {
+        .left{
+            display: none;
+        }
+        .right{
+            width: 100%;
+        }
+
     }
 
 }

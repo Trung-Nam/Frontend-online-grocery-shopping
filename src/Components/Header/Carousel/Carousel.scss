@@ -87,4 +87,11 @@
     .carousel-control-next {
         right: -40px;
     }
+
+    @media (max-width: 576px) {
+        .carousel-control-prev,
+        .carousel-control-next {
+            display: none;
+        }
+    }
 }
