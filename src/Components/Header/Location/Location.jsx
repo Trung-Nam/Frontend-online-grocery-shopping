@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { Button, Dialog } from '@mui/material';
 import { FaAngleDown } from "react-icons/fa6";
 import { IoIosSearch } from 'react-icons/io';
@@ -50,9 +50,9 @@ const Location = () => {
                 onClose={() => setIsOpenModal(false)}
                 className='location-modal'
             >
-                <Button className='close-popup' onClick={(e) => { e.stopPropagation(); setIsOpenModal(false); }}>
+                <button className='close-popup' onClick={(e) => { e.stopPropagation(); setIsOpenModal(false); }}>
                     <MdClose />
-                </Button>
+                </button>
 
 
                 <h5 className="entry-title">Choose your Delivery Location</h5>

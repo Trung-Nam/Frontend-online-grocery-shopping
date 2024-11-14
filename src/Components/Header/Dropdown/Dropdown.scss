@@ -59,6 +59,7 @@
         padding-top: 1.125rem;
         padding-bottom: 1.125rem;
         overflow-y: auto;
+
         li {
             width: 100%;
             list-style: none;
@@ -80,5 +81,16 @@
 
     &:hover .submenu {
         display: block;
+    }
+
+    @media (max-width: 576px) {
+        .dropdown-menu {
+            width: 350px;
+            left: 30px;
+        }
+
+        &:hover .submenu {
+            display: none;
+        }
     }
 }

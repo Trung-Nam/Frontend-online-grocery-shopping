@@ -3,17 +3,14 @@
     height: 60px;
     padding: 10px;
     background: #f3f4f7;
-
     position: relative;
-
     border-radius: 10px;
     border: 1px solid rgba(0, 0, 0, 0.2);
 
-    -webkit-input-placeholder: {
-        color: rgba(0, 0, 0, 0.6)
+    // Placeholder styling
+    -webkit-input-placeholder {
+        color: rgba(0, 0, 0, 0.6);
     }
-
-    ;
 
     input {
         width: 100%;
@@ -30,19 +27,45 @@
         width: 40px;
         height: 40px;
         min-width: 40px;
-
         color: var(--color-black);
         cursor: pointer;
-
         position: absolute;
         top: 10px;
         right: 15px;
         z-index: 100;
-
         outline: none;
         box-shadow: none;
         border: none;
         background: none;
+    }
 
+    // Mobile breakpoint adjustments
+    @media (max-width: 576px) {
+        height: 60px;
+        input {
+            font-size: 16px;
+            padding: 0 45px 0 10px;
+        }
+        button {
+            width: 35px;
+            height: 35px;
+            top: 12px;
+            right: 10px;
+        }
+    }
+
+    // Larger devices (tablet, desktop) adjustments
+    @media (min-width: 577px) {
+        height: 60px;
+        input {
+            font-size: 18px;
+            padding: 0 60px 0 30px;
+        }
+        button {
+            width: 40px;
+            height: 40px;
+            top: 10px;
+            right: 15px;
+        }
     }
 }

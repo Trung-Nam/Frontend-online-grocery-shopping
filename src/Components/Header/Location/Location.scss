@@ -1,12 +1,9 @@
 .header-location-wrapper {
     .header-location-btn {
         width: 170px;
-        height: auto;
         min-width: 170px;
-
         text-align: left;
         justify-content: flex-start;
-
         border: 1px solid rgba(0, 0, 0, 0.2);
         border-radius: 8px;
 
@@ -23,7 +20,6 @@
                 color: var(--color-primary);
                 font-weight: 700;
             }
-
         }
     }
 }
@@ -32,6 +28,17 @@
     .MuiDialog-paper {
         padding: 24px;
         position: relative;
+        max-width: 500px;
+        width: 90%;
+        border-radius: 8px;
+        margin: auto;
+
+        @media (max-width: 600px) {
+          
+            padding: 16px;
+            width: 90%;
+            max-height: 60vh;
+        }
     }
 
     .close-popup {
@@ -40,12 +47,18 @@
         right: 10px;
         width: 40px;
         height: 40px;
-        min-width: 40px;
         border-radius: 50%;
+        background: none; 
+        border: none;
+        
         svg {
             font-size: 20px;
             color: #202435;
+            &:hover {
+                color: var(--color-primary);
+            }
         }
+
     }
 
     .entry-title {
@@ -57,7 +70,6 @@
         opacity: .7;
         margin-bottom: 1.5rem;
     }
-
 
     .header-search {
         height: 3rem;
@@ -74,24 +86,23 @@
         }
     }
 
-
     .countries__list {
         width: 100%;
         max-height: 400px;
         overflow-x: hidden;
         overflow-y: scroll;
-        padding: 0;
-        margin-bottom: 0;
+
+        @media (max-width: 600px) {
+            max-height: 60vh; 
+        }
 
         .countries__list-item {
-            width: 100%;
             list-style: none;
 
             button {
                 width: 100%;
                 font-size: .875rem;
-                padding-top: .75rem;
-                padding-bottom: .75rem;
+                padding: .75rem 0;
                 text-transform: capitalize;
                 color: #202435;
                 justify-content: flex-start;
@@ -99,3 +110,4 @@
         }
     }
 }
+

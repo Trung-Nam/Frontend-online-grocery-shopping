@@ -1,10 +1,9 @@
-import React from 'react'
 import { IoIosSearch } from 'react-icons/io';
-import './Search.scss'
+import './Search.scss';
 
 const Search = () => {
     return (
-        <div className="header-search ms-3 me-3 d-flex align-items-center">
+        <div className="header-search ms-3 d-flex flex-column flex-md-row align-items-center">
             <input
                 type="text"
                 placeholder='Search for products...'
@@ -13,7 +12,7 @@ const Search = () => {
                 <IoIosSearch fontSize='25px' />
             </button>
         </div>
-    )
-}
+    );
+};
 
-export default Search
+export default Search;

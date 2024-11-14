@@ -8,6 +8,7 @@ import { LuClock3 } from 'react-icons/lu'
 import SliderItem from '../../Components/Product/SliderItem/SliderItem'
 import Product from '../../Components/Product/Product/Product'
 import QuickViewProduct from '../../Components/Product/QuickViewProduct/QuickViewProduct'
+import { Container, Row, Col } from 'react-bootstrap';
 const Home = () => {
 
     const CustomPrevArrow = (props) => {
@@ -78,7 +79,7 @@ const Home = () => {
         <>
             <Carousel />
             <section className="container d-flex">
-                <div className="col-3">
+                <div className="col-3 left">
                     <div className="widget-container">
                         <div className="widget widget_text">
                             <div className="widget-body">
@@ -370,16 +371,22 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-9">
-                    <div className="module-header d-flex justify-content-center align-items-center">
-                        <div className="col-10">
-                            <h4 className="entry-title">Best Sellers</h4>
-                            <div className="entry-description">Do not miss the current offers until the end of March.</div>
-                        </div>
-                        <div className="col-2">
-                            <a className="view-all-button" href="/">View All <FaArrowRightLong size={14} style={{ marginLeft: '4px', marginBottom: '2px' }} /></a>
-                        </div>
-                    </div>
+                <div className="col-9 right">
+                    <Container fluid className="module-header p-0">
+                        <Row className="w-100 p-0 m-0">
+                            <Col xs={6} md={9} className="p-0">
+                                <h4 className="entry-title">Best Sellers</h4>
+                                <div className="entry-description">
+                                    Do not miss the current offers until the end of March.
+                                </div>
+                            </Col>
+                            <Col xs={6} md={3} className="d-flex justify-content-end align-items-center p-0">
+                                <a className="view-all-button" href="/">
+                                    View All <FaArrowRightLong size={14} style={{ marginLeft: '4px', marginBottom: '2px' }} />
+                                </a>
+                            </Col>
+                        </Row>
+                    </Container>
 
                     <div className="best-sellers-products border rounded">
                         <Slider {...settings}>
@@ -404,16 +411,23 @@ const Home = () => {
                         </div>
                     </div>
 
-                    <div className="module-header d-flex justify-content-center align-items-center">
-                        <div className="col-10">
-                            <h4 className="entry-title">HOT PRODUCT FOR <span className="text-danger">THIS WEEK</span></h4>
-                            <div className="entry-description">Dont miss this opportunity at a special discount just for this week.</div>
-                        </div>
-                        <div className="col-2">
-                            <a className="view-all-button" href="/">View All <FaArrowRightLong size={14} style={{ marginLeft: '4px', marginBottom: '2px' }} /></a>
-                        </div>
-                    </div>
-
+                    <Container fluid className="module-header p-0">
+                        <Row className="w-100 p-0 m-0 d-flex justify-content-center align-items-center">
+                            <Col xs={6} md={9} className="p-0">
+                                <h4 className="entry-title">
+                                    HOT PRODUCT FOR <span className="text-danger">THIS WEEK</span>
+                                </h4>
+                                <div className="entry-description">
+                                    {"Don't miss this opportunity at a special discount just for this week."}
+                                </div>
+                            </Col>
+                            <Col xs={6} md={3} className="d-flex justify-content-end align-items-center p-0">
+                                <a className="view-all-button" href="/">
+                                    View All <FaArrowRightLong size={14} style={{ marginLeft: '4px', marginBottom: '2px' }} />
+                                </a>
+                            </Col>
+                        </Row>
+                    </Container>
                     <div className="hot-product rounded">
                         <div className="product">
                             <div className="hot-sale">19%</div>
@@ -480,15 +494,21 @@ const Home = () => {
                         </div>
                     </div>
 
-                    <div className="module-header d-flex justify-content-center align-items-center">
-                        <div className="col-10">
-                            <h4 className="entry-title">NEW PRODUCTS</h4>
-                            <div className="entry-description">New products with updated stocks.</div>
-                        </div>
-                        <div className="col-2">
-                            <a className="view-all-button" href="/">View All <FaArrowRightLong size={14} style={{ marginLeft: '4px', marginBottom: '2px' }} /></a>
-                        </div>
-                    </div>
+                    <Container fluid className="module-header p-0">
+                        <Row className="w-100 p-0 m-0 d-flex justify-content-center align-items-center">
+                            <Col xs={6} md={9} className="p-0">
+                                <h4 className="entry-title">NEW PRODUCTS</h4>
+                                <div className="entry-description">
+                                    New products with updated stocks.
+                                </div>
+                            </Col>
+                            <Col xs={6} md={3} className="d-flex justify-content-end align-items-center p-0">
+                                <a className="view-all-button" href="/">
+                                    View All <FaArrowRightLong size={14} style={{ marginLeft: '4px', marginBottom: '2px' }} />
+                                </a>
+                            </Col>
+                        </Row>
+                    </Container>
 
                     <div className="products d-flex flex-wrap border rounded">
                         <Product />
