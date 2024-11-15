@@ -1,24 +1,25 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import { FaAngleRight } from 'react-icons/fa6';
 import './Dropdown.scss';
 
-// eslint-disable-next-line react/prop-types
-const Dropdown = ({ items }) => {
+
+const Dropdown = ({ categories }) => {
     const [activeSubmenu, setActiveSubmenu] = useState(null);
 
     return (
         <div className="dropdown-container">
             <ul className="dropdown-menu">
-                {items?.map((item, index) => (
+                {categories?.map((category) => (
                     <li
                         className="dropdown-item-container"
-                        key={index}
-                        onMouseEnter={() => setActiveSubmenu(item.submenu)}
+                        key={category?._id}
+                        onMouseEnter={() => setActiveSubmenu(category?.subcategories)}
                     >
-                        <a className="dropdown-item d-flex align-items-center" href={item.link}>
-                            {item.icon && <img src={item.icon} alt={`${item.title}-icon`} />}
-                            {item.title}
-                            {item.submenu.length !== 0 && <FaAngleRight />}
+                        <a className="dropdown-item d-flex align-items-center" href="/">
+                            {category?.image && <img src={category?.image} alt={`${category?.name}-icon`} />}
+                            {category?.name}
+                            {category?.subcategories?.length !== 0 && <FaAngleRight />}
                         </a>
                     </li>
                 ))}
@@ -27,10 +28,10 @@ const Dropdown = ({ items }) => {
 
             {activeSubmenu && (
                 <ul className="dropdown-menu submenu">
-                    {activeSubmenu.map((subItem, subIndex) => (
-                        <li key={subIndex}>
-                            <a className="dropdown-item d-flex align-items-center" href={subItem.link}>
-                                {subItem.title}
+                    {activeSubmenu.map((subItem) => (
+                        <li key={subItem?._id}>
+                            <a className="dropdown-item d-flex align-items-center" href="/">
+                                {subItem?.name}
                             </a>
                         </li>
                     ))}
