@@ -12,7 +12,7 @@ const Product = () => {
                 <a href="/">
                     <img
                         decoding="async"
-                        src={'..//images/product-image.jpg'}
+                        src={'../images/product-image.jpg'}
                         alt="Weather's Original Caramel Hard Candies"
                         className='w-100'
                     />
@@ -33,7 +33,7 @@ const Product = () => {
 
             <div className="content-wrapper">
                 <h3 className="product-title">
-                    <a href="/" title="Werther’s Original Caramel Hard Candies">Werther’s Original Caramel Hard Candies</a>
+                    <a href="/" title="Weather's Original Caramel Hard Candies">Werther’s Original Caramel Hard Candies</a>
                 </h3>
                 <div className="product-meta">
                     <div className="product-available in-stock">In Stock</div>
