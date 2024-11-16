@@ -4,12 +4,13 @@ import { FaAngleDown } from 'react-icons/fa6';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Dropdown from '../Dropdown/Dropdown';
-import categories from '../../../Constants/Data';
 import "./Navigation.scss"
+import useCategories from '../../../Hooks/useCategories';
 
 const Navigation = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+    const [categories] = useCategories();
+    
     return (
         <div className="header-nav d-flex align-items-center border-bottom">
             <div className="container">
@@ -31,7 +32,7 @@ const Navigation = () => {
                                 </span>
                             </Button>
                             {isDropdownOpen && (
-                                <Dropdown items={categories} />
+                                <Dropdown categories={categories} />
                             )}
                         </div>
                         <div className="all-categories-description">TOTAL 63 PRODUCTS</div>
