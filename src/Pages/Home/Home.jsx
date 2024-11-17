@@ -10,20 +10,66 @@ import Product from '../../Components/Product/Product/Product'
 import { Container, Row, Col } from 'react-bootstrap';
 import useProducts from '../../Hooks/useProducts'
 import QuickViewProduct from '../../Components/Product/QuickViewProduct/QuickViewProduct'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Modal } from 'bootstrap';
 
 const Home = () => {
-    const [selectedProduct, setSelectedProduct] = useState(null);
-
     const [products] = useProducts();
-    // console.log(products);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [currentIndex, setCurrentIndex] = useState(products.length - 1);
+    const [timeRemaining, setTimeRemaining] = useState(72 * 60 * 60 * 1000); // Start with 72 hours in milliseconds.
+    const totalTime = 72 * 60 * 60 * 1000; // Total time (72 hours in milliseconds).
+    // Format time into "Days:Hours:Minutes:Seconds"
+    const formatTime = (ms) => {
+        const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+        const days = Math.floor(totalSeconds / (24 * 3600));
+        const hours = Math.floor((totalSeconds % (24 * 3600)) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+        return `${days}:${hours.toString().padStart(2, "0")}:${minutes
+            .toString()
+            .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    };
 
+    const updateProduct = () => {
+        setCurrentIndex((prevIndex) =>
+            prevIndex === 0 ? products.length - 1 : prevIndex - 1
+        );
+        setTimeRemaining(72 * 60 * 60 * 1000); // Reset countdown to 72 hours.
+    };
 
+    const startCountdown = () => {
+        const interval = setInterval(() => {
+            setTimeRemaining((prevTime) => {
+                if (prevTime <= 1000) {
+                    clearInterval(interval);
+                    updateProduct();
+                    return 0;
+                }
+                return prevTime - 1000; // Decrease time by 1 second (1000 ms).
+            });
+        }, 1000);
+
+        return interval; // Return the interval ID for cleanup.
+    };
+
+    useEffect(() => {
+        const countdownInterval = startCountdown(); // Start the countdown when the component mounts.
+
+        return () => clearInterval(countdownInterval); // Cleanup interval on unmount.
+    }, [currentIndex]); // Re-run when the `currentIndex` changes.
+
+    // Calculate progress percentage
+    const progressPercentage = ((timeRemaining / totalTime) * 100).toFixed(2);
+
+    const currentProduct = products[currentIndex];
+
+    // console.log(currentProduct);
+    
 
     const handleQuickView = (product) => {
         setSelectedProduct(product);
-    
+
         setTimeout(() => {
             const modalElement = document.getElementById('quick-view-product');
             if (modalElement) {
@@ -454,59 +500,87 @@ const Home = () => {
                             </Col>
                         </Row>
                     </Container>
-                    <div className="hot-product rounded">
-                        <div className="product">
-                            <div className="hot-sale">19%</div>
 
-                            <div className="hot-product-content d-flex">
-                                <div className="thumbnail-wrapper col-3">
-                                    <a href="/" title="Chobani Complete Vanilla Greek Yogurt">
-                                        <img decoding="async" className='w-100' src={'/images/product-image-2.jpg'} alt="Chobani Complete Vanilla Greek Yogurt" />
-                                    </a>
-                                </div>
+                    {currentProduct &&
+                        <div className="hot-product rounded">
+                            <div className="product">
+                                <div className="hot-sale">{currentProduct?.discountPercentage}%</div>
 
-                                <div className="content-wrapper col-9">
-                                    <div className="hot-product-header">
-                                        <span className="price">
-                                            <del aria-hidden="true">
-                                                <span className="hot-product-amount">
-                                                    <bdi>
-                                                        <span className="">$</span>5.49
-                                                    </bdi>
-                                                </span>
-                                            </del>
-                                            <ins aria-hidden="true">
-                                                <span className="hot-product-amount">
-                                                    <bdi>
-                                                        <span className="">$</span>4.49
-                                                    </bdi>
-                                                </span>
-                                            </ins>
-                                        </span>
+                                <div className="hot-product-content d-flex">
+                                    <div className="thumbnail-wrapper col-3">
+                                        <a href="/" title="">
+                                            <img
+                                                decoding="async"
+
+                                                src={currentProduct?.images?.primary}
+                                                alt={currentProduct?.name}
+                                                style={{ width: '90%', height: '100%', borderRadius: "8px" }}
+
+                                            />
+                                        </a>
                                     </div>
-                                    <h3 className="product-title">
-                                        <a href="/">Chobani Complete Vanilla Greek Yogurt</a>
-                                    </h3>
-                                    <div className="product-meta">
-                                        <div className="product-unit">1 kg</div>
-                                        <div className="product-available in-stock">In Stock</div>
-                                    </div>
-                                    <div className="product-progress">
-                                        <span className="progress" style={{ width: "88%" }}></span>
-                                    </div>
-                                    <div className="product-expired">
-                                        <div className="countdown" data-date="2024/12/13">
-                                            <div className="count-item days">69</div>:<div className="count-item hours">03</div>:<div className="count-item minutes">14</div>:<div className="count-item second">59</div>
+
+                                    <div className="content-wrapper col-9">
+                                        <div className="hot-product-header">
+                                            <span className="price">
+                                                <del aria-hidden="true">
+                                                    <span className="hot-product-amount">
+                                                        <bdi>
+                                                            <span className="">$</span>{currentProduct?.price}
+                                                        </bdi>
+                                                    </span>
+                                                </del>
+                                                <ins aria-hidden="true">
+                                                    <span className="hot-product-amount">
+                                                        <bdi>
+                                                            <span className="">$</span>{currentProduct?.discountedPrice}
+                                                        </bdi>
+                                                    </span>
+                                                </ins>
+                                            </span>
                                         </div>
-                                        <div className="expired-text">Remains until the end of the offer</div>
+                                        <h3 className="product-title">
+                                            <a href="/">{currentProduct?.name}</a>
+                                        </h3>
+                                        <div className="product-meta">
+                                            <div className={`product-available ${currentProduct?.stock > 0 ? "in-of-stock" : "out-of-stock"}`}>
+                                                <div className={`${currentProduct?.stock > 0 ? "in-of-stock" : "out-of-stock"}`}>{currentProduct?.stock > 0 ? "In Stock" : "Out Stock"}</div>
+                                            </div>
+                                        </div>
+                                        <div className="product-progress">
+                                            {/* Dynamic progress bar width */}
+                                            <span
+                                                className="progress"
+                                                style={{ width: `${progressPercentage}%` }}
+                                            ></span>
+                                        </div>
+                                        <div className="product-expired">
+                                            <div className="countdown">
+                                                <div className="count-item days">
+                                                    {formatTime(timeRemaining).split(":")[0]}
+                                                </div>
+                                                :
+                                                <div className="count-item hours">
+                                                    {formatTime(timeRemaining).split(":")[1]}
+                                                </div>
+                                                :
+                                                <div className="count-item minutes">
+                                                    {formatTime(timeRemaining).split(":")[2]}
+                                                </div>
+                                                :
+                                                <div className="count-item seconds">
+                                                    {formatTime(timeRemaining).split(":")[3]}
+                                                </div>
+                                            </div>
+                                            <div className="expired-text">Remains until the end of the offer</div>
+                                        </div>
                                     </div>
                                 </div>
 
+                                <a href="/" title="Chobani Complete Vanilla Greek Yogurt" className="overlay-link"></a>
                             </div>
-
-                            <a href="/" title="Chobani Complete Vanilla Greek Yogurt" className="overlay-link"></a>
                         </div>
-                    </div>
+                    }
 
                     <div className="module-purchase-banner">
                         <div className="module-body">
