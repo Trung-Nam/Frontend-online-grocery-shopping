@@ -1,20 +1,24 @@
+/* eslint-disable react/prop-types */
 import { Rating } from '@mui/material'
 import { FaRegHeart } from 'react-icons/fa6'
 import './SliderItem.scss'
-const SliderItem = () => {
+const SliderItem = ({product}) => {
     return (
         <div className="slider-product-wrapper border-end">
             <div className="thumbnail-wrapper">
                 <div className="product-badges">
-                    <span className="badge on-sale">26%</span>
-                    <span className="badge recommended">recommended</span>
+                    <span className="badge on-sale">{product?.discountPercentage}%</span>
+                    {
+                        product?.recommended && <span className="badge recommended">recommended</span>
+                    }
                 </div>
                 <a href="/">
                     <img
                         decoding="async"
-                        src={'..//images/product-image.jpg'}
+                        src={product?.images?.primary}
                         alt="Weather's Original Caramel Hard Candies"
-                        className='w-100'
+                        className='img-fluid w-100 rounded'
+                        style={{height:"150px"}}
                     />
                 </a>
                 <div className="product-buttons">
@@ -38,10 +42,10 @@ const SliderItem = () => {
 
             <div className="content-wrapper">
                 <h3 className="product-title">
-                    <a href="/" title="Werther’s Original Caramel Hard Candies">Werther’s Original Caramel Hard Candies</a>
+                    <a href="/">{product?.name}</a>
                 </h3>
                 <div className="product-meta">
-                    <div className="product-available in-stock">In Stock</div>
+                    <div className={`product-available ${product?.stock > 0 ? "in-stock" : "out-stock"}`}>{product?.stock > 0 ? "In Stock" : "Out Stock" }</div>
                 </div>
 
                 <div className="product-rating">
@@ -53,14 +57,14 @@ const SliderItem = () => {
                     <del>
                         <span className="price-amount">
                             <bdi>
-                                <span className="price-amount-number">$</span>20.00
+                                <span className="price-amount-number">$</span>{product?.price}
                             </bdi>
                         </span>
                     </del>
                     <ins>
                         <span className="price-amount">
                             <bdi>
-                                <span className="price-amount-number">$</span>14.97
+                                <span className="price-amount-number">$</span>{product?.discountedPrice}
                             </bdi>
                         </span>
                     </ins>

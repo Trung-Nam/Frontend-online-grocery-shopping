@@ -9,7 +9,13 @@ import SliderItem from '../../Components/Product/SliderItem/SliderItem'
 import Product from '../../Components/Product/Product/Product'
 import QuickViewProduct from '../../Components/Product/QuickViewProduct/QuickViewProduct'
 import { Container, Row, Col } from 'react-bootstrap';
+import useProducts from '../../Hooks/useProducts'
+
+
 const Home = () => {
+
+    const [products] = useProducts();
+    console.log(products);
 
     const CustomPrevArrow = (props) => {
         // eslint-disable-next-line react/prop-types
@@ -390,10 +396,11 @@ const Home = () => {
 
                     <div className="best-sellers-products border rounded">
                         <Slider {...settings}>
-                            <SliderItem />
-                            <SliderItem />
-                            <SliderItem />
-                            <SliderItem />
+                            {products?.slice(0, 4)?.map(product => (
+                                <SliderItem key={product?._id} product = {product}/>
+                            ))
+                            }
+
                         </Slider>
                         <QuickViewProduct />
                     </div>
