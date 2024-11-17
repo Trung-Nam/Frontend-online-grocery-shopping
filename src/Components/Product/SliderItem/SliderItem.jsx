@@ -1,10 +1,8 @@
 /* eslint-disable react/prop-types */
 import { Rating } from '@mui/material'
 import { FaRegHeart } from 'react-icons/fa6'
-import ReactDOM from 'react-dom';
 import './SliderItem.scss'
-import QuickViewProduct from '../QuickViewProduct/QuickViewProduct';
-const SliderItem = ({product}) => {
+const SliderItem = ({ product, onQuickView }) => {
     return (
         <div className="slider-product-wrapper border-end">
             <div className="thumbnail-wrapper">
@@ -20,21 +18,18 @@ const SliderItem = ({product}) => {
                         src={product?.images?.primary}
                         alt="Weather's Original Caramel Hard Candies"
                         className='img-fluid w-100 rounded'
-                        style={{height:"150px"}}
+                        style={{ height: "150px", objectFit:"cover" }}
                     />
                 </a>
                 <div className="product-buttons">
-                    <a
-                        href="/"
+                    <button
                         className="detail-btn quick-view-button shadow"
-                        data-bs-toggle="modal"
-                        data-bs-target="#quick-view-product"
+                        onClick={() => onQuickView(product)}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                             <path d="M128 32V0H16C7.163 0 0 7.163 0 16v112h32V54.56L180.64 203.2l22.56-22.56L54.56 32H128zM496 0H384v32h73.44L308.8 180.64l22.56 22.56L480 54.56V128h32V16c0-8.837-7.163-16-16-16zM480 457.44L331.36 308.8l-22.56 22.56L457.44 480H384v32h112c8.837 0 16-7.163 16-16V384h-32v73.44zM180.64 308.64L32 457.44V384H0v112c0 8.837 7.163 16 16 16h112v-32H54.56L203.2 331.36l-22.56-22.72z" />
                         </svg>
-                    </a>
-
+                    </button>
                     <a href='/' className='like-btn shadow'>
                         <FaRegHeart />
                     </a>
@@ -47,7 +42,7 @@ const SliderItem = ({product}) => {
                     <a href="/">{product?.name}</a>
                 </h3>
                 <div className="product-meta">
-                    <div className={`product-available ${product?.stock > 0 ? "in-stock" : "out-stock"}`}>{product?.stock > 0 ? "In Stock" : "Out Stock" }</div>
+                    <div className={`product-available ${product?.stock > 0 ? "in-stock" : "out-stock"}`}>{product?.stock > 0 ? "In Stock" : "Out Stock"}</div>
                 </div>
 
                 <div className="product-rating">
@@ -77,12 +72,6 @@ const SliderItem = ({product}) => {
                 </div>
             </div>
 
-            {
-                ReactDOM.createPortal(
-                <QuickViewProduct product={product} />,
-                document.body // The modal is now rendered at the root level, outside the parent component
-            )
-            }
         </div>
     )
 }

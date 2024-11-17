@@ -7,15 +7,33 @@ import { RiMobileDownloadLine } from 'react-icons/ri'
 import { LuClock3 } from 'react-icons/lu'
 import SliderItem from '../../Components/Product/SliderItem/SliderItem'
 import Product from '../../Components/Product/Product/Product'
-import QuickViewProduct from '../../Components/Product/QuickViewProduct/QuickViewProduct'
 import { Container, Row, Col } from 'react-bootstrap';
 import useProducts from '../../Hooks/useProducts'
-
+import QuickViewProduct from '../../Components/Product/QuickViewProduct/QuickViewProduct'
+import { useState } from 'react'
+import { Modal } from 'bootstrap';
 
 const Home = () => {
+    const [selectedProduct, setSelectedProduct] = useState(null);
 
     const [products] = useProducts();
-    console.log(products);
+    // console.log(products);
+
+
+
+    const handleQuickView = (product) => {
+        setSelectedProduct(product);
+    
+        setTimeout(() => {
+            const modalElement = document.getElementById('quick-view-product');
+            if (modalElement) {
+                const modal = new Modal(modalElement);
+                modal.show();
+            } else {
+                console.error("Modal element not found");
+            }
+        }, 0);
+    };
 
     const CustomPrevArrow = (props) => {
         // eslint-disable-next-line react/prop-types
@@ -397,12 +415,13 @@ const Home = () => {
                     <div className="best-sellers-products border rounded">
                         <Slider {...settings}>
                             {products?.slice(0, 4)?.map(product => (
-                                <SliderItem key={product?._id} product = {product}/>
-                            ))
-                            }
-
+                                <SliderItem
+                                    key={product?._id}
+                                    product={product}
+                                    onQuickView={handleQuickView}
+                                />
+                            ))}
                         </Slider>
-                        <QuickViewProduct />
                     </div>
 
                     <div className="module-body-banner w-100">
@@ -741,7 +760,7 @@ const Home = () => {
                     </div>
                 </div>
             </section>
-
+            <QuickViewProduct product={selectedProduct} />
         </>
     )
 }

@@ -7,8 +7,6 @@ import { FaCheck, FaRegHeart } from 'react-icons/fa6';
 import { CgArrowsExchangeV } from "react-icons/cg";
 import formatDate from '../../../utils/formatters';
 const QuickViewProduct = ({ product }) => {
-    console.log("check", product);
-
     const [nav1, setNav1] = useState(null);
     // eslint-disable-next-line no-unused-vars
     const [nav2, setNav2] = useState(null);
@@ -17,15 +15,6 @@ const QuickViewProduct = ({ product }) => {
         product?.images?.primary,
         ...(product?.images?.thumbnails || [])
     ];
-
-
-    // const images = [
-    //     'https://klbtheme.com/bacola/wp-content/uploads/2021/04/product-image-62.jpg',
-    //     'https://klbtheme.com/bacola/wp-content/uploads/2021/04/product-image2-47.jpg',
-    //     'https://klbtheme.com/bacola/wp-content/uploads/2021/04/product-image3-35.jpg',
-    // ];
-
-
 
     const mainSliderSettings = {
         arrows: false,
