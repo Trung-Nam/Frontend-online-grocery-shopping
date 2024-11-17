@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 import { Rating } from '@mui/material'
 import { FaRegHeart } from 'react-icons/fa6'
+import ReactDOM from 'react-dom';
 import './SliderItem.scss'
+import QuickViewProduct from '../QuickViewProduct/QuickViewProduct';
 const SliderItem = ({product}) => {
     return (
         <div className="slider-product-wrapper border-end">
@@ -74,6 +76,13 @@ const SliderItem = ({product}) => {
                     <a href="/">Add to cart</a>
                 </div>
             </div>
+
+            {
+                ReactDOM.createPortal(
+                <QuickViewProduct product={product} />,
+                document.body // The modal is now rendered at the root level, outside the parent component
+            )
+            }
         </div>
     )
 }
