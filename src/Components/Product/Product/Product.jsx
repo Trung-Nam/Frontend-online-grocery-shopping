@@ -2,6 +2,8 @@
 import './Product.scss'
 import { FaRegHeart } from 'react-icons/fa6'
 import { Rating } from '@mui/material'
+import { Link } from 'react-router-dom'
+
 const Product = ({ product, onQuickView }) => {
     return (
         <div className="product-wrapper col-3">
@@ -40,7 +42,7 @@ const Product = ({ product, onQuickView }) => {
 
             <div className="content-wrapper">
                 <h3 className="product-title">
-                    <a href="/">{product?.name}</a>
+                    <Link to={`/product/${product._id}`}>{product?.name}</Link>
                 </h3>
                 <div className="product-meta">
                     <div className={`product-available ${product?.stock > 0 ? "in-stock" : "out-stock"}`}>{product?.stock > 0 ? "In Stock" : "Out Stock"}</div>
