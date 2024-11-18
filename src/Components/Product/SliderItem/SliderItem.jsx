@@ -16,7 +16,7 @@ const SliderItem = ({ product, onQuickView }) => {
                     <img
                         decoding="async"
                         src={product?.images?.primary}
-                        alt="Weather's Original Caramel Hard Candies"
+                        alt={product?.name}
                         className='img-fluid w-100 rounded'
                         style={{ height: "150px", objectFit:"cover" }}
                     />

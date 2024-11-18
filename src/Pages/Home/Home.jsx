@@ -86,7 +86,7 @@ const Home = () => {
     // Set initial product when products are loaded
     useEffect(() => {
         if (products?.length > 0) {
-            setCurrentIndex(products.length - 1); 
+            setCurrentIndex(products.length - 1);
         }
     }, [products]);
 
@@ -640,14 +640,10 @@ const Home = () => {
                     </Container>
 
                     <div className="products d-flex flex-wrap border rounded">
-                        <Product />
-                        <Product />
-                        <Product />
-                        <Product />
-                        <Product />
-                        <Product />
-                        <Product />
-                        <Product />
+                        {products?.slice(0, 8)?.map(product => (
+                            <Product key={product._id} product={product} onQuickView={handleQuickView}/>
+                        ))
+                        }
                     </div>
 
                     <div className="ads-banner d-flex">
