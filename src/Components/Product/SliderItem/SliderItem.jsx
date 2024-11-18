@@ -2,6 +2,7 @@
 import { Rating } from '@mui/material'
 import { FaRegHeart } from 'react-icons/fa6'
 import './SliderItem.scss'
+import { Link } from 'react-router-dom'
 const SliderItem = ({ product, onQuickView }) => {
     return (
         <div className="slider-product-wrapper border-end">
@@ -18,7 +19,7 @@ const SliderItem = ({ product, onQuickView }) => {
                         src={product?.images?.primary}
                         alt={product?.name}
                         className='img-fluid w-100 rounded'
-                        style={{ height: "150px", objectFit:"cover" }}
+                        style={{ height: "150px", objectFit: "cover" }}
                     />
                 </a>
                 <div className="product-buttons">
@@ -39,7 +40,7 @@ const SliderItem = ({ product, onQuickView }) => {
 
             <div className="content-wrapper">
                 <h3 className="product-title">
-                    <a href="/">{product?.name}</a>
+                    <Link to={`/product/${product?._id}`}>{product?.name}</Link>
                 </h3>
                 <div className="product-meta">
                     <div className={`product-available ${product?.stock > 0 ? "in-stock" : "out-stock"}`}>{product?.stock > 0 ? "In Stock" : "Out Stock"}</div>

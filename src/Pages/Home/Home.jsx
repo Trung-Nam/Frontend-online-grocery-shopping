@@ -698,12 +698,12 @@ const Home = () => {
 
             <Swiper
                 breakpoints={{
-                    320: { slidesPerView: 3, spaceBetween: 0 }, // For very small screens
-                    480: { slidesPerView: 4, spaceBetween: 0 }, // For small mobile devices
-                    640: { slidesPerView: 4, spaceBetween: 0 }, // For larger mobile devices
-                    768: { slidesPerView: 5, spaceBetween: 0 }, // Tablets
-                    1024: { slidesPerView: 7, spaceBetween: 0 }, // Small desktops
-                    1280: { slidesPerView: 8, spaceBetween: 0 }, // Large desktops
+                    320: { slidesPerView: 3, spaceBetween: 0 },
+                    480: { slidesPerView: 4, spaceBetween: 0 },
+                    640: { slidesPerView: 4, spaceBetween: 0 }, 
+                    768: { slidesPerView: 5, spaceBetween: 0 }, 
+                    1024: { slidesPerView: 7, spaceBetween: 0 },
+                    1280: { slidesPerView: 8, spaceBetween: 0 },
                 }}
                 autoplay={{
                     delay: 200,

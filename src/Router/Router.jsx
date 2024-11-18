@@ -8,6 +8,7 @@ import Cart from "../Pages/Cart/Cart";
 import SignIn from "../Pages/Authentication/SignIn/SignIn";
 import SignUp from "../Pages/Authentication/SignUp/SignUp";
 import App from "../App";
+import instance from "../utils/axiosInstance";
 
 
 
@@ -18,7 +19,12 @@ const router = createBrowserRouter([
         children: [
             { path: "/", element: <Home /> },
             { path: "/shop", element: <Shop /> },
-            { path: "/product/:id", element: <ProductDetails /> },
+            {
+                path: "/product/:id",
+                element: <ProductDetails />,
+                loader: ({ params }) => instance.get(`/products/${params.id}`)
+
+            },
             { path: "/blog", element: <Blog /> },
             { path: "/contact", element: <Contact /> },
             { path: "/cart", element: <Cart /> },

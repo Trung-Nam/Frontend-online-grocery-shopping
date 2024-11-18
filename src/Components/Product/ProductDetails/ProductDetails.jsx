@@ -1,4 +1,4 @@
-import  { useState } from 'react'
+import { useState } from 'react'
 import './ProductDetails.scss';
 import { Rating } from '@mui/material';
 import Slider from 'react-slick/lib/slider';
@@ -12,9 +12,14 @@ import CustomTabs from '../Tabs/CustomTabs';
 import QuickViewProduct from '../QuickViewProduct/QuickViewProduct';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import SliderItem from '../SliderItem/SliderItem';
+import { useLoaderData } from 'react-router-dom';
+import formatDate from '../../../utils/formatters';
 
 
 const ProductDetails = () => {
+    const product = useLoaderData().data;
+    console.log(product);
+
     const [nav1, setNav1] = useState(null);
     // eslint-disable-next-line no-unused-vars
     const [nav2, setNav2] = useState(null);
@@ -37,9 +42,8 @@ const ProductDetails = () => {
     };
 
     const images = [
-        'https://klbtheme.com/bacola/wp-content/uploads/2021/04/product-image-62.jpg',
-        'https://klbtheme.com/bacola/wp-content/uploads/2021/04/product-image2-47.jpg',
-        'https://klbtheme.com/bacola/wp-content/uploads/2021/04/product-image3-35.jpg',
+        product?.images?.primary,
+        ...(product?.images?.thumbnails || [])
     ];
 
     const tabData = [
@@ -179,18 +183,18 @@ const ProductDetails = () => {
 
     const mainSliderSettings = {
         arrows: false,
-        asNavFor: nav2, // Link with the thumbnails slider
+        asNavFor: nav2,
         ref: (slider) => setNav1(slider),
     };
 
     const thumbnailSliderSettings = {
         slidesToShow: 3,
         slidesToScroll: 1,
-        asNavFor: nav1, // Link with the main slider
+        asNavFor: nav1, 
         focusOnSelect: true,
         centerMode: true,
         arrows: false,
-        dots: false,
+        dots: true,
         centerPadding: '0px',
     };
 
@@ -283,7 +287,7 @@ const ProductDetails = () => {
                 <div className="product__details">
                     <article className="product">
                         <div className="product-header">
-                            <h1 className="product_title entry-title">All Natural Italian-Style Chicken Meatballs</h1>
+                            <h1 className="product_title entry-title">{product?.name}</h1>
                             <div className="product-meta">
                                 <div className="product-brand">
                                     <table className="product-attributes shop_attributes" aria-label="Product Details">
@@ -291,7 +295,7 @@ const ProductDetails = () => {
                                             <tr className="product-attributes-item">
                                                 <th className="product-attributes-item__label" scope="row">Brands:</th>
                                                 <td className="product-attributes-item__value">
-                                                    <p>{"Welch's"}</p>
+                                                    <p> {product?.brand}</p>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -311,7 +315,7 @@ const ProductDetails = () => {
 
                                 <div className="sku-wrapper">
                                     <span>SKU: </span>
-                                    <span className="sku">ZU49VOR</span>
+                                    <span className="sku">{product?.sku}</span>
                                 </div>
                             </div>
                         </div>
@@ -319,14 +323,16 @@ const ProductDetails = () => {
                         <div className="product-details-wrapper d-flex">
                             <div className="product-thumbnails col-5">
                                 <div className="product-badges">
-                                    <span className="badge onsale">23%</span>
-                                    <span className="badge">recommended</span>
+                                    <span className="badge onsale">{product?.discountPercentage}%</span>
+                                    {
+                                        product?.recommended && <span className="badge">recommended</span>
+                                    }
                                 </div>
 
                                 {/* Main Slider */}
                                 <Slider {...mainSliderSettings} className="main-slider">
                                     {images.map((image, index) => (
-                                        <div key={index} >
+                                        <div key={index}>
                                             <img src={image} alt={`Product ${index}`} className="product-image w-100" />
                                         </div>
                                     ))}
@@ -348,27 +354,27 @@ const ProductDetails = () => {
                                     <p className="price">
                                         <del>
                                             <span className="price-amount amount">
-                                                <span className="price-currency">$</span>9.35
+                                                <span className="price-currency">$</span>{product?.price}
                                             </span>
                                         </del>
 
                                         <ins>
                                             <span className="price-amount amount">
-                                                <span className="price-currency">$</span>7.25
+                                                <span className="price-currency">$</span>{product?.discountedPrice}
                                             </span>
                                         </ins>
 
                                     </p>
 
                                     <div className="product-meta">
-                                        <div className="stock product-available out-of-stock">
-                                            <span className="stock out-of-stock">Out of stock</span>
+                                        <div className={`stock product-available ${product?.stock > 0 ? "in-of-stock" : "out-of-stock"}`}>
+                                            <div className={`stock ${product?.stock > 0 ? "in-of-stock" : "out-of-stock"}`}>{product?.stock > 0 ? "In Stock" : "Out Stock"}</div>
                                         </div>
                                     </div>
 
                                     <div className="product-short-description">
                                         <p>
-                                            Vivamus adipiscing nisl ut dolor dignissim semper. Nulla luctus malesuada tincidunt. Class aptent taciti sociosqu ad litora torquent.
+                                            {product?.description}
                                         </p>
                                     </div>
 
@@ -407,25 +413,28 @@ const ProductDetails = () => {
 
                                     <div className="product-checklist">
                                         <ul>
-                                            <li><FaCheck /> Type: Organic</li>
-                                            <li><FaCheck /> MFG: Jun 4, 2021</li>
-                                            <li><FaCheck /> LIFE: 30 days</li>
+                                            <li><FaCheck /> Type: {product?.attributes?.type}</li>
+                                            <li><FaCheck /> MFG: {formatDate(product?.attributes?.manufacturingDate)}</li>
+                                            <li><FaCheck /> LIFE: {product?.attributes?.shelfLife} days</li>
                                         </ul>
                                     </div>
 
                                     <div className="product_meta product-meta-bottom">
                                         <span className="sku_wrapper">
-                                            SKU: <span className="sku">ZU49VOR</span>
+                                            SKU: <span className="sku">{product?.sku}</span>
                                         </span>
 
                                         <span className="posted_in">
-                                            Category: <a href="/" rel="tag">Meats & Seafood</a>
+                                            Category: <a href="/" rel="tag">{product?.category?.name}</a>
                                         </span>
 
                                         <span className="tagged_as">
-                                            Tags: <a href="/" rel="tag">chicken</a>,
-                                            <a href="/" rel="tag">natural</a>,
-                                            <a href="/" rel="tag">organic</a>
+                                            Tags:
+                                            {
+                                                product?.tags.map((tag, index) => (
+                                                    <a href="/" key={index} rel="tag"> {tag}{index === product?.tags?.length - 1 ? "" : ", "}</a>
+                                                ))
+                                            }
                                         </span>
                                     </div>
 
@@ -439,7 +448,7 @@ const ProductDetails = () => {
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                     >
-                                                        <img src={"..//images/social media/facebook.png"} alt="facebook-icon" />
+                                                        <img src={"../images/social media/facebook.png"} alt="facebook-icon" />
                                                     </a>
                                                 </li>
                                                 <li>
@@ -449,7 +458,7 @@ const ProductDetails = () => {
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                     >
-                                                        <img src={"..//images/social media/twitter.png"} alt="twitter-icon" />
+                                                        <img src={"../images/social media/twitter.png"} alt="twitter-icon" />
                                                     </a>
                                                 </li>
                                                 <li>
@@ -459,7 +468,7 @@ const ProductDetails = () => {
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                     >
-                                                        <img src={"..//images/social media/pinterest.png"} alt="pinterest-icon" />
+                                                        <img src={"../images/social media/pinterest.png"} alt="pinterest-icon" />
                                                     </a>
                                                 </li>
                                                 <li>
