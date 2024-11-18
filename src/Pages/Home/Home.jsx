@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Carousel from '../../Components/Header/Carousel/Carousel'
 import './Home.scss'
 import Slider from 'react-slick'
@@ -15,10 +16,13 @@ import { Modal } from 'bootstrap';
 
 const Home = () => {
     const [products] = useProducts();
+    const [currentIndex, setCurrentIndex] = useState(null);
     const [selectedProduct, setSelectedProduct] = useState(null);
-    const [currentIndex, setCurrentIndex] = useState(products.length - 1);
-    const [timeRemaining, setTimeRemaining] = useState(72 * 60 * 60 * 1000); // Start with 72 hours in milliseconds.
-    const totalTime = 72 * 60 * 60 * 1000; // Total time (72 hours in milliseconds).
+    const [timeRemaining, setTimeRemaining] = useState(0);
+    const totalTime = 72 * 60 * 60 * 1000; // 72 hours in milliseconds
+
+    const currentProduct = currentIndex !== null ? products?.[currentIndex] : null;
+
     // Format time into "Days:Hours:Minutes:Seconds"
     const formatTime = (ms) => {
         const totalSeconds = Math.max(0, Math.floor(ms / 1000));
@@ -31,13 +35,14 @@ const Home = () => {
             .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
     };
 
+    // Update to the next product
     const updateProduct = () => {
         setCurrentIndex((prevIndex) =>
             prevIndex === 0 ? products.length - 1 : prevIndex - 1
         );
-        setTimeRemaining(72 * 60 * 60 * 1000); // Reset countdown to 72 hours.
     };
 
+    // Start the countdown
     const startCountdown = () => {
         const interval = setInterval(() => {
             setTimeRemaining((prevTime) => {
@@ -46,26 +51,50 @@ const Home = () => {
                     updateProduct();
                     return 0;
                 }
-                return prevTime - 1000; // Decrease time by 1 second (1000 ms).
+                return prevTime - 1000; // Decrease time by 1 second
             });
         }, 1000);
 
-        return interval; // Return the interval ID for cleanup.
+        return interval;
     };
 
+    // Calculate time remaining based on product's createdAt
     useEffect(() => {
-        const countdownInterval = startCountdown(); // Start the countdown when the component mounts.
+        if (currentProduct) {
+            const now = Date.now();
+            const productCreatedAt = new Date(currentProduct.createdAt).getTime();
+            const timeElapsed = now - productCreatedAt;
+            const remaining = totalTime - timeElapsed;
 
-        return () => clearInterval(countdownInterval); // Cleanup interval on unmount.
-    }, [currentIndex]); // Re-run when the `currentIndex` changes.
+            if (remaining > 0) {
+                setTimeRemaining(remaining);
+            } else {
+                // If the product's time has already expired, move to the next product
+                updateProduct();
+            }
+        }
+    }, [currentProduct]);
+
+    // Start the countdown whenever timeRemaining changes
+    useEffect(() => {
+        if (timeRemaining > 0) {
+            const countdownInterval = startCountdown();
+            return () => clearInterval(countdownInterval);
+        }
+    }, [timeRemaining]);
+
+    // Set initial product when products are loaded
+    useEffect(() => {
+        if (products?.length > 0) {
+            setCurrentIndex(products.length - 1); 
+        }
+    }, [products]);
+
+
 
     // Calculate progress percentage
     const progressPercentage = ((timeRemaining / totalTime) * 100).toFixed(2);
 
-    const currentProduct = products[currentIndex];
-
-    // console.log(currentProduct);
-    
 
     const handleQuickView = (product) => {
         setSelectedProduct(product);
