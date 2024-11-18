@@ -1,23 +1,61 @@
-import { useState } from 'react'
-
-import { RiArrowRightSLine } from "react-icons/ri";
-import categories from '../../Constants/Data'
+import { useEffect, useState } from 'react'
 import './Shop.scss'
+import { RiArrowRightSLine } from "react-icons/ri";
 import { FaPlus } from 'react-icons/fa6';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
-import { Button, Pagination } from '@mui/material';
-import { IoGrid, IoMenu } from "react-icons/io5";
-import { BsFillGrid3X3GapFill } from "react-icons/bs";
-import { TfiLayoutGrid4Alt } from "react-icons/tfi";
+import { InputAdornment, Pagination, TextField } from '@mui/material';
 import Product from '../../Components/Product/Product/Product';
+import useCategories from '../../Hooks/useCategories';
+import useProducts from '../../Hooks/useProducts';
+import { Modal } from 'bootstrap';
+import QuickViewProduct from '../../Components/Product/QuickViewProduct/QuickViewProduct';
+import { CgSearch } from 'react-icons/cg';
 
 const Shop = () => {
+    const [categories] = useCategories();
+    const [products, loading] = useProducts();
+    const [selectedProduct, setSelectedProduct] = useState(null);
     const [activeIndex, setActiveIndex] = useState(null);
     const [value, setValue] = useState([0, 100]);
     const [numberOfItems, setNumberOfItems] = useState(9);
     const [sortBy, setSortBy] = useState("Sort by lasted")
+    const [filteredProducts, setFilteredProducts] = useState([]);
 
+    useEffect(() => {
+        if (products && products.length) {
+            setFilteredProducts(products);
+        }
+    }, [products]);
+
+    const handleSearch = (searchTerm) => {
+        if (!searchTerm.trim()) {
+            setFilteredProducts(products);
+            return;
+        }
+
+        const filtered = products.filter((product) =>
+            product?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredProducts(filtered);
+    };
+
+
+
+
+    const handleQuickView = (product) => {
+        setSelectedProduct(product);
+
+        setTimeout(() => {
+            const modalElement = document.getElementById('quick-view-product');
+            if (modalElement) {
+                const modal = new Modal(modalElement);
+                modal.show();
+            } else {
+                console.error("Modal element not found");
+            }
+        }, 0);
+    };
     return (
         <main id="main" className="site-primary">
             <div className="site-content">
@@ -44,45 +82,45 @@ const Shop = () => {
                                             <div className="site-checkbox-lists">
                                                 <div className="site-scroll ps">
                                                     <ul className="category__lists">
-                                                        {categories?.map((item, index) => (
-                                                            <li className="category__lists-item" key={index}>
+                                                        {categories?.map((category) => (
+                                                            <li className="category__lists-item" key={category?._id}>
                                                                 <a className="d-flex align-items-center" href="/">
                                                                     <input
-                                                                        name="product_cat[]"
-                                                                        value={item.value}
-                                                                        id={`checkbox-${index}`}
+                                                                        name="product"
+                                                                        value={category?.name}
+                                                                        id={`checkbox-${category?._id}`}
                                                                         type="checkbox"
                                                                     />
                                                                     <span
                                                                         onClick={() => {
-                                                                            const checkbox = document.getElementById(`checkbox-${index}`);
+                                                                            const checkbox = document.getElementById(`checkbox-${category?._id}`);
                                                                             checkbox.checked = !checkbox.checked;
                                                                         }}
                                                                     >
-                                                                        {item.title}
+                                                                        {category?.name}
                                                                     </span>
                                                                 </a>
-                                                                {item.submenu.length !== 0 && (
-                                                                    <FaPlus onClick={() => setActiveIndex(activeIndex === index ? null : index)} /> // Toggle submenu for clicked item
+                                                                {category?.subcategories?.length !== 0 && (
+                                                                    <FaPlus onClick={() => setActiveIndex(activeIndex === category?._id ? null : category?._id)} /> // Toggle submenu for clicked item
                                                                 )}
-                                                                {activeIndex === index && (
+                                                                {activeIndex === category?._id && (
                                                                     <ul className="submenu">
-                                                                        {item.submenu.map((subItem, subIndex) => (
+                                                                        {category?.subcategories?.map((subItem, subIndex) => (
                                                                             <li key={subIndex} className='submenu-item'>
-                                                                                <a className="dropdown-item d-flex align-items-center" href={subItem.link}>
+                                                                                <a className="dropdown-item d-flex align-items-center" href={subItem?.link}>
                                                                                     <input
-                                                                                        name={`sub_product_cat[]`}
-                                                                                        value={subItem.value}
-                                                                                        id={`sub-checkbox-${index}-${subIndex}`}
+                                                                                        name={`sub_product_cat`}
+                                                                                        value={subItem?.name}
+                                                                                        id={`sub-checkbox-${subItem?._id}-${subIndex}`}
                                                                                         type="checkbox"
                                                                                     />
                                                                                     <span
                                                                                         onClick={() => {
-                                                                                            const checkbox = document.getElementById(`sub-checkbox-${index}-${subIndex}`);
+                                                                                            const checkbox = document.getElementById(`sub-checkbox-${subItem?._id}-${subIndex}`);
                                                                                             checkbox.checked = !checkbox.checked;
                                                                                         }}
                                                                                     >
-                                                                                        {subItem.title}
+                                                                                        {subItem.name}
                                                                                     </span>
                                                                                 </a>
                                                                             </li>
@@ -227,22 +265,23 @@ const Shop = () => {
                                 </div>
 
                                 <div className="filter__options">
-                                    <div className="shop-view-selector">
-                                        <Button className='active'>
-                                            <IoMenu size={34} />
-                                        </Button>
-
-                                        <Button>
-                                            <IoGrid />
-                                        </Button>
-                                        <Button>
-                                            <BsFillGrid3X3GapFill />
-                                        </Button>
-                                        <Button>
-                                            <TfiLayoutGrid4Alt />
-                                        </Button>
+                                    <div className="d-flex align-items-center col-8">
+                                        {/* Search Box */}
+                                        <TextField
+                                            label="Enter your product name..."
+                                            variant="outlined"
+                                            size="small"
+                                            onChange={(e) => handleSearch(e.target.value)}
+                                            sx={{ width: '100%' }}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <CgSearch />
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                        />
                                     </div>
-
                                     <div className="shop-view-filters">
                                         <div className="dropdown">
                                             <button
@@ -372,20 +411,19 @@ const Shop = () => {
 
                                 </div>
 
-                                <div className="products d-flex flex-wrap border rounded">
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                </div>
+                                {loading ? (
+                                    <p>Loading products...</p>
+                                ) : (
+                                    <div className="products d-flex flex-wrap justify-content-start align-items-center gap-2 ms-2">
+                                        {filteredProducts.length > 0 ? (
+                                            filteredProducts.map((product) => (
+                                                <Product key={product._id} product={product} onQuickView={handleQuickView} />
+                                            ))
+                                        ) : (
+                                            <p>No products found</p> // Show this if no products match search
+                                        )}
+                                    </div>
+                                )}
 
                                 <div className="pagination d-flex justify-content-center align-items-center">
                                     <Pagination count={10} color="primary" />
@@ -395,6 +433,7 @@ const Shop = () => {
                     </div>
                 </div>
             </div>
+            <QuickViewProduct product={selectedProduct} />
         </main>
     )
 }

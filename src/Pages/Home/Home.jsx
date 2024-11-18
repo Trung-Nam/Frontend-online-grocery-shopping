@@ -643,7 +643,7 @@ const Home = () => {
                         </Row>
                     </Container>
 
-                    <div className="products d-flex flex-wrap border rounded">
+                    <div className="products d-flex flex-wrap justify-content-start align-items-center gap-2 ms-2">
                         {products?.slice(0, 8)?.map(product => (
                             <Product key={product._id} product={product} onQuickView={handleQuickView} />
                         ))
