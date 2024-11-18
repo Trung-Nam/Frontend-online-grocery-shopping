@@ -10,11 +10,15 @@ import SliderItem from '../../Components/Product/SliderItem/SliderItem'
 import Product from '../../Components/Product/Product/Product'
 import { Container, Row, Col } from 'react-bootstrap';
 import useProducts from '../../Hooks/useProducts'
+import useCategories from '../../Hooks/useCategories'
 import QuickViewProduct from '../../Components/Product/QuickViewProduct/QuickViewProduct'
 import { useEffect, useState } from 'react'
 import { Modal } from 'bootstrap';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Card, CardMedia, CardContent, Typography } from "@mui/material";
 
 const Home = () => {
+    const [categories] = useCategories();
     const [products] = useProducts();
     const [currentIndex, setCurrentIndex] = useState(null);
     const [selectedProduct, setSelectedProduct] = useState(null);
@@ -641,7 +645,7 @@ const Home = () => {
 
                     <div className="products d-flex flex-wrap border rounded">
                         {products?.slice(0, 8)?.map(product => (
-                            <Product key={product._id} product={product} onQuickView={handleQuickView}/>
+                            <Product key={product._id} product={product} onQuickView={handleQuickView} />
                         ))
                         }
                     </div>
@@ -692,173 +696,72 @@ const Home = () => {
                 </div>
             </section>
 
-            <section className="container module-category">
-                <div className="module-body justify-content-center w-100">
-                    <div className="categories d-flex w-100">
-                        <div className="first col-3">
-                            <div className="category">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/baverages-1.jpg'}
-                                            alt="Beverages"
-                                            className='w-100'
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Beverages</a>
-                                    </h3>
-                                    <div className="category-count">11 Items</div>
-                                </div>
-                            </div>
-                        </div>
+            <Swiper
+                breakpoints={{
+                    320: { slidesPerView: 3, spaceBetween: 0 }, // For very small screens
+                    480: { slidesPerView: 4, spaceBetween: 0 }, // For small mobile devices
+                    640: { slidesPerView: 4, spaceBetween: 0 }, // For larger mobile devices
+                    768: { slidesPerView: 5, spaceBetween: 0 }, // Tablets
+                    1024: { slidesPerView: 7, spaceBetween: 0 }, // Small desktops
+                    1280: { slidesPerView: 8, spaceBetween: 0 }, // Large desktops
+                }}
+                autoplay={{
+                    delay: 200,
+                    disableOnInteraction: false,
+                }}
+                navigation={true}
+                pagination={{ clickable: true }}
+                className='container mt-5 py-2'
 
-                        <div className="categories-wrapper col-9">
-                            <div className="category col-3 border">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/biscuitssnacks-1.jpg'}
-                                            alt="Biscuits & Snacks"
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Biscuits & Snacks</a>
-                                    </h3>
-                                    <div className="category-count">6 Items</div>
-                                </div>
-                            </div>
-                            <div className="category col-3 border">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/biscuitssnacks-1.jpg'}
-                                            alt="Biscuits & Snacks"
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Biscuits & Snacks</a>
-                                    </h3>
-                                    <div className="category-count">6 Items</div>
-                                </div>
-                            </div>
-                            <div className="category col-3 border">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/biscuitssnacks-1.jpg'}
-                                            alt="Biscuits & Snacks"
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Biscuits & Snacks</a>
-                                    </h3>
-                                    <div className="category-count">6 Items</div>
-                                </div>
-                            </div>
-                            <div className="category col-3 border">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/biscuitssnacks-1.jpg'}
-                                            alt="Biscuits & Snacks"
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Biscuits & Snacks</a>
-                                    </h3>
-                                    <div className="category-count">6 Items</div>
-                                </div>
-                            </div>
-                            <div className="category col-3 border">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/biscuitssnacks-1.jpg'}
-                                            alt="Biscuits & Snacks"
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Biscuits & Snacks</a>
-                                    </h3>
-                                    <div className="category-count">6 Items</div>
-                                </div>
-                            </div>
-                            <div className="category col-3 border">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/biscuitssnacks-1.jpg'}
-                                            alt="Biscuits & Snacks"
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Biscuits & Snacks</a>
-                                    </h3>
-                                    <div className="category-count">6 Items</div>
-                                </div>
-                            </div>
-                            <div className="category col-3 border">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/biscuitssnacks-1.jpg'}
-                                            alt="Biscuits & Snacks"
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Biscuits & Snacks</a>
-                                    </h3>
-                                    <div className="category-count">6 Items</div>
-                                </div>
-                            </div>
-                            <div className="category col-3 border">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/biscuitssnacks-1.jpg'}
-                                            alt="Biscuits & Snacks"
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Biscuits & Snacks</a>
-                                    </h3>
-                                    <div className="category-count">6 Items</div>
-                                </div>
-                            </div>
+            >
+                {categories.map((category, index) => (
+                    <SwiperSlide key={index}>
+                        <Card
+                            sx={{
+                                maxWidth: { xs: 100, sm: 120, md: 140, lg: 150 },
+                                mx: "auto",
+                            }}
+                        >
+                            <CardMedia
+                                component="img"
+                                image={category.image}
+                                alt={category.name}
+                                sx={{
+                                    objectFit: "contain",
+                                    height: { xs: 80, sm: 100, md: 120, lg: 140 },
+                                }}
+                            />
+                            <CardContent
+                                sx={{
+                                    textAlign: "center",
+                                    p: { xs: 0.5, sm: 1 },
+                                }}
+                            >
+                                <Typography
+                                    variant="subtitle2"
+                                    component="div"
+                                    noWrap
+                                    sx={{
+                                        fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
+                                    }}
+                                >
+                                    {category.name}
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                    sx={{
+                                        fontSize: { xs: "0.7rem", sm: "0.8rem", md: "0.9rem" },
+                                    }}
+                                >
+                                    {category.items} Items
+                                </Typography>
+                            </CardContent>
+                        </Card>
 
-                        </div>
-
-                    </div>
-                </div>
-            </section>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
             <QuickViewProduct product={selectedProduct} />
         </>
     )
