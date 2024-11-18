@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Carousel from '../../Components/Header/Carousel/Carousel'
 import './Home.scss'
 import Slider from 'react-slick'
@@ -7,9 +8,111 @@ import { RiMobileDownloadLine } from 'react-icons/ri'
 import { LuClock3 } from 'react-icons/lu'
 import SliderItem from '../../Components/Product/SliderItem/SliderItem'
 import Product from '../../Components/Product/Product/Product'
-import QuickViewProduct from '../../Components/Product/QuickViewProduct/QuickViewProduct'
 import { Container, Row, Col } from 'react-bootstrap';
+import useProducts from '../../Hooks/useProducts'
+import useCategories from '../../Hooks/useCategories'
+import QuickViewProduct from '../../Components/Product/QuickViewProduct/QuickViewProduct'
+import { useEffect, useState } from 'react'
+import { Modal } from 'bootstrap';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Card, CardMedia, CardContent, Typography } from "@mui/material";
+
 const Home = () => {
+    const [categories] = useCategories();
+    const [products] = useProducts();
+    const [currentIndex, setCurrentIndex] = useState(null);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [timeRemaining, setTimeRemaining] = useState(0);
+    const totalTime = 72 * 60 * 60 * 1000; // 72 hours in milliseconds
+
+    const currentProduct = currentIndex !== null ? products?.[currentIndex] : null;
+
+    // Format time into "Days:Hours:Minutes:Seconds"
+    const formatTime = (ms) => {
+        const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+        const days = Math.floor(totalSeconds / (24 * 3600));
+        const hours = Math.floor((totalSeconds % (24 * 3600)) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+        return `${days}:${hours.toString().padStart(2, "0")}:${minutes
+            .toString()
+            .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    };
+
+    // Update to the next product
+    const updateProduct = () => {
+        setCurrentIndex((prevIndex) =>
+            prevIndex === 0 ? products.length - 1 : prevIndex - 1
+        );
+    };
+
+    // Start the countdown
+    const startCountdown = () => {
+        const interval = setInterval(() => {
+            setTimeRemaining((prevTime) => {
+                if (prevTime <= 1000) {
+                    clearInterval(interval);
+                    updateProduct();
+                    return 0;
+                }
+                return prevTime - 1000; // Decrease time by 1 second
+            });
+        }, 1000);
+
+        return interval;
+    };
+
+    // Calculate time remaining based on product's createdAt
+    useEffect(() => {
+        if (currentProduct) {
+            const now = Date.now();
+            const productCreatedAt = new Date(currentProduct.createdAt).getTime();
+            const timeElapsed = now - productCreatedAt;
+            const remaining = totalTime - timeElapsed;
+
+            if (remaining > 0) {
+                setTimeRemaining(remaining);
+            } else {
+                // If the product's time has already expired, move to the next product
+                updateProduct();
+            }
+        }
+    }, [currentProduct]);
+
+    // Start the countdown whenever timeRemaining changes
+    useEffect(() => {
+        if (timeRemaining > 0) {
+            const countdownInterval = startCountdown();
+            return () => clearInterval(countdownInterval);
+        }
+    }, [timeRemaining]);
+
+    // Set initial product when products are loaded
+    useEffect(() => {
+        if (products?.length > 0) {
+            setCurrentIndex(products.length - 1);
+        }
+    }, [products]);
+
+
+
+    // Calculate progress percentage
+    const progressPercentage = ((timeRemaining / totalTime) * 100).toFixed(2);
+
+
+    const handleQuickView = (product) => {
+        setSelectedProduct(product);
+
+        setTimeout(() => {
+            const modalElement = document.getElementById('quick-view-product');
+            if (modalElement) {
+                const modal = new Modal(modalElement);
+                modal.show();
+            } else {
+                console.error("Modal element not found");
+            }
+        }, 0);
+    };
 
     const CustomPrevArrow = (props) => {
         // eslint-disable-next-line react/prop-types
@@ -390,12 +493,14 @@ const Home = () => {
 
                     <div className="best-sellers-products border rounded">
                         <Slider {...settings}>
-                            <SliderItem />
-                            <SliderItem />
-                            <SliderItem />
-                            <SliderItem />
+                            {products?.slice(0, 4)?.map(product => (
+                                <SliderItem
+                                    key={product?._id}
+                                    product={product}
+                                    onQuickView={handleQuickView}
+                                />
+                            ))}
                         </Slider>
-                        <QuickViewProduct />
                     </div>
 
                     <div className="module-body-banner w-100">
@@ -428,59 +533,87 @@ const Home = () => {
                             </Col>
                         </Row>
                     </Container>
-                    <div className="hot-product rounded">
-                        <div className="product">
-                            <div className="hot-sale">19%</div>
 
-                            <div className="hot-product-content d-flex">
-                                <div className="thumbnail-wrapper col-3">
-                                    <a href="/" title="Chobani Complete Vanilla Greek Yogurt">
-                                        <img decoding="async" className='w-100' src={'/images/product-image-2.jpg'} alt="Chobani Complete Vanilla Greek Yogurt" />
-                                    </a>
-                                </div>
+                    {currentProduct &&
+                        <div className="hot-product rounded">
+                            <div className="product">
+                                <div className="hot-sale">{currentProduct?.discountPercentage}%</div>
 
-                                <div className="content-wrapper col-9">
-                                    <div className="hot-product-header">
-                                        <span className="price">
-                                            <del aria-hidden="true">
-                                                <span className="hot-product-amount">
-                                                    <bdi>
-                                                        <span className="">$</span>5.49
-                                                    </bdi>
-                                                </span>
-                                            </del>
-                                            <ins aria-hidden="true">
-                                                <span className="hot-product-amount">
-                                                    <bdi>
-                                                        <span className="">$</span>4.49
-                                                    </bdi>
-                                                </span>
-                                            </ins>
-                                        </span>
+                                <div className="hot-product-content d-flex">
+                                    <div className="thumbnail-wrapper col-3">
+                                        <a href="/" title="">
+                                            <img
+                                                decoding="async"
+
+                                                src={currentProduct?.images?.primary}
+                                                alt={currentProduct?.name}
+                                                style={{ width: '90%', height: '100%', borderRadius: "8px" }}
+
+                                            />
+                                        </a>
                                     </div>
-                                    <h3 className="product-title">
-                                        <a href="/">Chobani Complete Vanilla Greek Yogurt</a>
-                                    </h3>
-                                    <div className="product-meta">
-                                        <div className="product-unit">1 kg</div>
-                                        <div className="product-available in-stock">In Stock</div>
-                                    </div>
-                                    <div className="product-progress">
-                                        <span className="progress" style={{ width: "88%" }}></span>
-                                    </div>
-                                    <div className="product-expired">
-                                        <div className="countdown" data-date="2024/12/13">
-                                            <div className="count-item days">69</div>:<div className="count-item hours">03</div>:<div className="count-item minutes">14</div>:<div className="count-item second">59</div>
+
+                                    <div className="content-wrapper col-9">
+                                        <div className="hot-product-header">
+                                            <span className="price">
+                                                <del aria-hidden="true">
+                                                    <span className="hot-product-amount">
+                                                        <bdi>
+                                                            <span className="">$</span>{currentProduct?.price}
+                                                        </bdi>
+                                                    </span>
+                                                </del>
+                                                <ins aria-hidden="true">
+                                                    <span className="hot-product-amount">
+                                                        <bdi>
+                                                            <span className="">$</span>{currentProduct?.discountedPrice}
+                                                        </bdi>
+                                                    </span>
+                                                </ins>
+                                            </span>
                                         </div>
-                                        <div className="expired-text">Remains until the end of the offer</div>
+                                        <h3 className="product-title">
+                                            <a href="/">{currentProduct?.name}</a>
+                                        </h3>
+                                        <div className="product-meta">
+                                            <div className={`product-available ${currentProduct?.stock > 0 ? "in-of-stock" : "out-of-stock"}`}>
+                                                <div className={`${currentProduct?.stock > 0 ? "in-of-stock" : "out-of-stock"}`}>{currentProduct?.stock > 0 ? "In Stock" : "Out Stock"}</div>
+                                            </div>
+                                        </div>
+                                        <div className="product-progress">
+                                            {/* Dynamic progress bar width */}
+                                            <span
+                                                className="progress"
+                                                style={{ width: `${progressPercentage}%` }}
+                                            ></span>
+                                        </div>
+                                        <div className="product-expired">
+                                            <div className="countdown">
+                                                <div className="count-item days">
+                                                    {formatTime(timeRemaining).split(":")[0]}
+                                                </div>
+                                                :
+                                                <div className="count-item hours">
+                                                    {formatTime(timeRemaining).split(":")[1]}
+                                                </div>
+                                                :
+                                                <div className="count-item minutes">
+                                                    {formatTime(timeRemaining).split(":")[2]}
+                                                </div>
+                                                :
+                                                <div className="count-item seconds">
+                                                    {formatTime(timeRemaining).split(":")[3]}
+                                                </div>
+                                            </div>
+                                            <div className="expired-text">Remains until the end of the offer</div>
+                                        </div>
                                     </div>
                                 </div>
 
+                                <a href="/" title="Chobani Complete Vanilla Greek Yogurt" className="overlay-link"></a>
                             </div>
-
-                            <a href="/" title="Chobani Complete Vanilla Greek Yogurt" className="overlay-link"></a>
                         </div>
-                    </div>
+                    }
 
                     <div className="module-purchase-banner">
                         <div className="module-body">
@@ -511,14 +644,10 @@ const Home = () => {
                     </Container>
 
                     <div className="products d-flex flex-wrap border rounded">
-                        <Product />
-                        <Product />
-                        <Product />
-                        <Product />
-                        <Product />
-                        <Product />
-                        <Product />
-                        <Product />
+                        {products?.slice(0, 8)?.map(product => (
+                            <Product key={product._id} product={product} onQuickView={handleQuickView} />
+                        ))
+                        }
                     </div>
 
                     <div className="ads-banner d-flex">
@@ -567,174 +696,73 @@ const Home = () => {
                 </div>
             </section>
 
-            <section className="container module-category">
-                <div className="module-body justify-content-center w-100">
-                    <div className="categories d-flex w-100">
-                        <div className="first col-3">
-                            <div className="category">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/baverages-1.jpg'}
-                                            alt="Beverages"
-                                            className='w-100'
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Beverages</a>
-                                    </h3>
-                                    <div className="category-count">11 Items</div>
-                                </div>
-                            </div>
-                        </div>
+            <Swiper
+                breakpoints={{
+                    320: { slidesPerView: 3, spaceBetween: 0 }, // For very small screens
+                    480: { slidesPerView: 4, spaceBetween: 0 }, // For small mobile devices
+                    640: { slidesPerView: 4, spaceBetween: 0 }, // For larger mobile devices
+                    768: { slidesPerView: 5, spaceBetween: 0 }, // Tablets
+                    1024: { slidesPerView: 7, spaceBetween: 0 }, // Small desktops
+                    1280: { slidesPerView: 8, spaceBetween: 0 }, // Large desktops
+                }}
+                autoplay={{
+                    delay: 200,
+                    disableOnInteraction: false,
+                }}
+                navigation={true}
+                pagination={{ clickable: true }}
+                className='container mt-5 py-2'
 
-                        <div className="categories-wrapper col-9">
-                            <div className="category col-3 border">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/biscuitssnacks-1.jpg'}
-                                            alt="Biscuits & Snacks"
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Biscuits & Snacks</a>
-                                    </h3>
-                                    <div className="category-count">6 Items</div>
-                                </div>
-                            </div>
-                            <div className="category col-3 border">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/biscuitssnacks-1.jpg'}
-                                            alt="Biscuits & Snacks"
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Biscuits & Snacks</a>
-                                    </h3>
-                                    <div className="category-count">6 Items</div>
-                                </div>
-                            </div>
-                            <div className="category col-3 border">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/biscuitssnacks-1.jpg'}
-                                            alt="Biscuits & Snacks"
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Biscuits & Snacks</a>
-                                    </h3>
-                                    <div className="category-count">6 Items</div>
-                                </div>
-                            </div>
-                            <div className="category col-3 border">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/biscuitssnacks-1.jpg'}
-                                            alt="Biscuits & Snacks"
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Biscuits & Snacks</a>
-                                    </h3>
-                                    <div className="category-count">6 Items</div>
-                                </div>
-                            </div>
-                            <div className="category col-3 border">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/biscuitssnacks-1.jpg'}
-                                            alt="Biscuits & Snacks"
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Biscuits & Snacks</a>
-                                    </h3>
-                                    <div className="category-count">6 Items</div>
-                                </div>
-                            </div>
-                            <div className="category col-3 border">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/biscuitssnacks-1.jpg'}
-                                            alt="Biscuits & Snacks"
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Biscuits & Snacks</a>
-                                    </h3>
-                                    <div className="category-count">6 Items</div>
-                                </div>
-                            </div>
-                            <div className="category col-3 border">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/biscuitssnacks-1.jpg'}
-                                            alt="Biscuits & Snacks"
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Biscuits & Snacks</a>
-                                    </h3>
-                                    <div className="category-count">6 Items</div>
-                                </div>
-                            </div>
-                            <div className="category col-3 border">
-                                <div className="category-image">
-                                    <a href="/">
-                                        <img
-                                            decoding="async"
-                                            src={'/images/biscuitssnacks-1.jpg'}
-                                            alt="Biscuits & Snacks"
-                                        />
-                                    </a>
-                                </div>
-                                <div className="category-detail">
-                                    <h3 className="entry-category">
-                                        <a href="/">Biscuits & Snacks</a>
-                                    </h3>
-                                    <div className="category-count">6 Items</div>
-                                </div>
-                            </div>
+            >
+                {categories.map((category, index) => (
+                    <SwiperSlide key={index}>
+                        <Card
+                            sx={{
+                                maxWidth: { xs: 100, sm: 120, md: 140, lg: 150 },
+                                mx: "auto",
+                            }}
+                        >
+                            <CardMedia
+                                component="img"
+                                image={category.image}
+                                alt={category.name}
+                                sx={{
+                                    objectFit: "contain",
+                                    height: { xs: 80, sm: 100, md: 120, lg: 140 },
+                                }}
+                            />
+                            <CardContent
+                                sx={{
+                                    textAlign: "center",
+                                    p: { xs: 0.5, sm: 1 },
+                                }}
+                            >
+                                <Typography
+                                    variant="subtitle2"
+                                    component="div"
+                                    noWrap
+                                    sx={{
+                                        fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
+                                    }}
+                                >
+                                    {category.name}
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                    sx={{
+                                        fontSize: { xs: "0.7rem", sm: "0.8rem", md: "0.9rem" },
+                                    }}
+                                >
+                                    {category.items} Items
+                                </Typography>
+                            </CardContent>
+                        </Card>
 
-                        </div>
-
-                    </div>
-                </div>
-            </section>
-
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+            <QuickViewProduct product={selectedProduct} />
         </>
     )
 }

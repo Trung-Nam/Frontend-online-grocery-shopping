@@ -322,8 +322,27 @@
                         font-weight: 600;
                         text-transform: uppercase;
                         color: var(--color-success);
-                        margin-left: 10px;
                     }
+
+                    .in-of-stock {
+                        background-color: var(--color-success-light);
+                        color: var(--color-success);
+                    }
+    
+                    .out-of-stock {
+                        background-color: var(--color-danger-light);
+                        color: var(--color-danger-dark);
+                    }
+                }
+
+                .product-available {
+                    font-family: var(--font-secondary);
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    padding: 4px 10px;
+                    background-color: var(--color-success-light);
+                    border-radius: 1.875rem;
+                    
                 }
 
                 .product-progress {
@@ -501,95 +520,5 @@
 
 }
 
-.module-category {
-    margin-top: 1.875rem;
-    margin-bottom: 7.1875rem;
-    .categories {
-        cursor: pointer;
 
-        .first {
-            display: flex;
-            align-items: center;
-            flex: 0 0 20%;
-            max-width: 20%;
-            text-align: inherit;
-            border-bottom: 0;
-            border: 1px solid var(--color-border);
-
-            .category {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                align-items: center;
-                padding: 1.25rem;
-
-                .category-image {
-                    img {
-                        height: 192px;
-                        width: 192px;
-                    }
-                }
-
-                .category-detail {
-                    .entry-category {
-                        font-size: .875rem;
-                        font-weight: 600;
-
-                        a {
-                            color: var(--color-text);
-                            text-decoration: none;
-                        }
-                    }
-
-                    .category-count {
-                        font-size: .75rem;
-                        font-weight: 300;
-                    }
-                }
-
-            }
-        }
-
-        .categories-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 80%;
-
-            .category {
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                height: 50%;
-                padding: 0 20px;
-
-                .category-image {
-                    img {
-                        height: 70px;
-                        width: 70px;
-                    }
-                }
-
-                .category-detail {
-                    .entry-category {
-                        font-size: .875rem;
-                        font-weight: 600;
-
-                        a {
-                            color: var(--color-text);
-                            text-decoration: none;
-                        }
-                    }
-
-                    .category-count {
-                        font-size: .75rem;
-                        font-weight: 300;
-                    }
-                }
-
-            }
-        }
-    }
-}
 

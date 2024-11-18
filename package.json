@@ -16,6 +16,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
+    "date-fns": "^4.1.0",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.5",
     "react-dom": "^18.3.1",
@@ -24,6 +25,7 @@
     "react-router-dom": "^6.28.0",
     "react-slick": "^0.30.2",
     "styled-components": "^6.1.13",
+    "swiper": "^11.1.14",
     "vite-tsconfig-paths": "^5.1.2",
     "web-vitals": "^2.1.4"
   },

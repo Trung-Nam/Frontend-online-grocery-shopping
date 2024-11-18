@@ -69,6 +69,7 @@
             border-radius: 50%;
             background-color: var(--color-white);
             transition: background-color 0.3s ease, transform 0.3s ease;
+            border: none;
 
             svg {
                 width: 16px;
@@ -138,6 +139,11 @@
 
             .in-stock {
                 color: var(--color-success);
+            }
+            
+            .out-stock {
+                color: var(--color-danger);
+
             }
         }
 
