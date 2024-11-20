@@ -4,7 +4,7 @@ import { RiArrowRightSLine } from "react-icons/ri";
 import { FaPlus } from 'react-icons/fa6';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
-import { InputAdornment, Pagination, Slider, TextField } from '@mui/material';
+import { FormControl, InputAdornment, InputLabel, MenuItem, Pagination, Select, Slider, TextField } from '@mui/material';
 import Product from '../../Components/Product/Product/Product';
 import useCategories from '../../Hooks/useCategories';
 import useProducts from '../../Hooks/useProducts';
@@ -19,8 +19,8 @@ const Shop = () => {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [activeIndex, setActiveIndex] = useState(null);
     const [value, setValue] = useState([0, 100]);
-    const [numberOfItems, setNumberOfItems] = useState(9);
-    const [sortBy, setSortBy] = useState("Sort by lasted");
+    const [numberOfItems, setNumberOfItems] = useState(8);
+    const [sortBy, setSortBy] = useState("Sort by latest");
     const [searchTerm, setSearchTerm] = useState("");
 
     // Combine filtering and sorting logic
@@ -40,7 +40,7 @@ const Shop = () => {
         }
 
         // Sort products
-        if (sortBy === "Sort by popularity") {
+        if (sortBy === "Sort by latest") {
             updatedProducts.sort((a, b) => b.popularity - a.popularity);
         } else if (sortBy === "Sort by average rating") {
             updatedProducts.sort((a, b) => b.rating - a.rating);
@@ -285,7 +285,7 @@ const Shop = () => {
                                 </div>
                                 <div className="filter__options">
                                     {/* Search Box */}
-                                    <div className="d-flex align-items-center col-8">
+                                    <div className="d-flex align-items-center col-6">
                                         <TextField
                                             label="Enter your product name..."
                                             variant="outlined"
@@ -301,95 +301,38 @@ const Shop = () => {
                                             }}
                                         />
                                     </div>
-                                    {/* Sort By Dropdown */}
-                                    <div className="dropdown">
-                                        <button
-                                            className="btn dropdown-toggle border-start"
-                                            type="button"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
+                                    {/* Sort By Select */}
+                                    <FormControl size="small" sx={{ minWidth: 150 }}>
+                                        <InputLabel id="sort-by-label">Sort By...</InputLabel>  
+                                        <Select
+                                            labelId="sort-by-label"
+                                            value={sortBy}
+                                            onChange={(e) => setSortBy(e.target.value)}
+                                            label="Sort by..."
                                         >
-                                            {sortBy}
-                                        </button>
-                                        <ul className="dropdown-menu dropdown-menu-sort">
-                                            <li>
-                                                <a
-                                                    className="dropdown-item"
-                                                    href="/"
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        setSortBy("Sort by popularity");
-                                                    }}
-                                                >
-                                                    Sort by popularity
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a
-                                                    className="dropdown-item"
-                                                    href="/"
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        setSortBy("Sort by average rating");
-                                                    }}
-                                                >
-                                                    Sort by average rating
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a
-                                                    className="dropdown-item"
-                                                    href="/"
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        setSortBy("Sort by price: low to high");
-                                                    }}
-                                                >
-                                                    Sort by price: low to high
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a
-                                                    className="dropdown-item"
-                                                    href="/"
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        setSortBy("Sort by price: high to low");
-                                                    }}
-                                                >
-                                                    Sort by price: high to low
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                            <MenuItem value="Sort by latest">Sort by Latest</MenuItem>
+                                            <MenuItem value="Sort by average rating">Average rating</MenuItem>
+                                            <MenuItem value="Sort by price: low to high">Price: low to high</MenuItem>
+                                            <MenuItem value="Sort by price: high to low">Price: high to low</MenuItem>
+                                        </Select>
+                                    </FormControl>
 
-                                    {/* Number of Items Dropdown */}
-                                    <div className="dropdown">
-                                        <button
-                                            className="btn dropdown-toggle border-end border-start"
-                                            type="button"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
+                                    {/* Number of Items Select */}
+                                    <FormControl size="small" sx={{ minWidth: 150, ml: 2 }}>
+                                        <InputLabel id="number-of-items-label">Number of Items</InputLabel>
+                                        <Select
+                                            labelId="number-of-items-label"
+                                            value={numberOfItems}
+                                            onChange={(e) => setNumberOfItems(e.target.value)}
+                                            label="Number of Items"
                                         >
-                                            <span>Number items: </span> {numberOfItems}
-                                        </button>
-                                        <ul className="dropdown-menu dropdown-menu-items">
-                                            {[9, 18, 27, 36].map((num) => (
-                                                <li key={num}>
-                                                    <a
-                                                        className="dropdown-item"
-                                                        href="/"
-                                                        onClick={(e) => {
-                                                            e.preventDefault();
-                                                            setNumberOfItems(num);
-                                                        }}
-                                                    >
-                                                        {num}
-                                                    </a>
-                                                </li>
+                                            {[8, 12, 16, 20].map((num) => (
+                                                <MenuItem key={num} value={num}>
+                                                    {num}
+                                                </MenuItem>
                                             ))}
-                                        </ul>
-                                    </div>
+                                        </Select>
+                                    </FormControl>
                                 </div>
                                 {loading ? (
                                     <p>Loading products...</p>
