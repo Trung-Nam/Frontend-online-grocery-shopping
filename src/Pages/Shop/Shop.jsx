@@ -22,6 +22,7 @@ const Shop = () => {
     const [numberOfItems, setNumberOfItems] = useState(8);
     const [sortBy, setSortBy] = useState("Sort by latest");
     const [searchTerm, setSearchTerm] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
 
     // Combine filtering and sorting logic
     useEffect(() => {
@@ -50,9 +51,17 @@ const Shop = () => {
             updatedProducts.sort((a, b) => b.price - a.price);
         }
 
-        setFilteredProducts(updatedProducts.slice(0, numberOfItems));
-    }, [products, sortBy, value, searchTerm, numberOfItems]);
+        // Paginate
+        // const totalItems = updatedProducts.length;
+        const startIndex = (currentPage - 1) * numberOfItems;
+        const paginatedProducts = updatedProducts.slice(startIndex, startIndex + numberOfItems);
 
+        setFilteredProducts(paginatedProducts);
+    }, [products, sortBy, value, searchTerm, numberOfItems, currentPage]);
+
+    const handlePageChange = (event, page) => {
+        setCurrentPage(page);
+    };
     const handleSearch = (term) => {
         setSearchTerm(term);
     };
@@ -285,7 +294,7 @@ const Shop = () => {
                                 </div>
                                 <div className="filter__options">
                                     {/* Search Box */}
-                                    <div className="d-flex align-items-center col-6">
+                                    <div className="d-flex align-items-center col-7">
                                         <TextField
                                             label="Enter your product name..."
                                             variant="outlined"
@@ -302,8 +311,8 @@ const Shop = () => {
                                         />
                                     </div>
                                     {/* Sort By Select */}
-                                    <FormControl size="small" sx={{ minWidth: 150 }}>
-                                        <InputLabel id="sort-by-label">Sort By...</InputLabel>  
+                                    <FormControl size="small" sx={{ minWidth: 150, ml: 2 }}>
+                                        <InputLabel id="sort-by-label">Sort By...</InputLabel>
                                         <Select
                                             labelId="sort-by-label"
                                             value={sortBy}
@@ -349,7 +358,12 @@ const Shop = () => {
                                 )}
 
                                 <div className="pagination d-flex justify-content-center align-items-center">
-                                    <Pagination count={10} color="primary" />
+                                    <Pagination
+                                        count={Math.ceil(products.length / numberOfItems)} 
+                                        page={currentPage}
+                                        onChange={handlePageChange}
+                                        color="primary"
+                                    />
                                 </div>
                             </div>
                         </div>
