@@ -1,23 +1,87 @@
-import { useState } from 'react'
-
-import { RiArrowRightSLine } from "react-icons/ri";
-import categories from '../../Constants/Data'
+import { useEffect, useState } from 'react'
 import './Shop.scss'
+import { RiArrowRightSLine } from "react-icons/ri";
 import { FaPlus } from 'react-icons/fa6';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
-import { Button, Pagination } from '@mui/material';
-import { IoGrid, IoMenu } from "react-icons/io5";
-import { BsFillGrid3X3GapFill } from "react-icons/bs";
-import { TfiLayoutGrid4Alt } from "react-icons/tfi";
+import { FormControl, InputAdornment, InputLabel, MenuItem, Pagination, Select, Slider, TextField } from '@mui/material';
 import Product from '../../Components/Product/Product/Product';
+import useCategories from '../../Hooks/useCategories';
+import useProducts from '../../Hooks/useProducts';
+import { Modal } from 'bootstrap';
+import QuickViewProduct from '../../Components/Product/QuickViewProduct/QuickViewProduct';
+import { CgSearch } from 'react-icons/cg';
 
 const Shop = () => {
+    const [categories] = useCategories();
+    const [products, loading] = useProducts();
+    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [selectedProduct, setSelectedProduct] = useState(null);
     const [activeIndex, setActiveIndex] = useState(null);
     const [value, setValue] = useState([0, 100]);
-    const [numberOfItems, setNumberOfItems] = useState(9);
-    const [sortBy, setSortBy] = useState("Sort by lasted")
+    const [numberOfItems, setNumberOfItems] = useState(8);
+    const [sortBy, setSortBy] = useState("Sort by latest");
+    const [searchTerm, setSearchTerm] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
 
+    // Combine filtering and sorting logic
+    useEffect(() => {
+        let updatedProducts = [...products];
+
+        // Filter by price range
+        updatedProducts = updatedProducts.filter(
+            (product) => product.price >= value[0] && product.price <= value[1]
+        );
+
+        // Filter by search term
+        if (searchTerm.trim()) {
+            updatedProducts = updatedProducts.filter((product) =>
+                product?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+
+        // Sort products
+        if (sortBy === "Sort by latest") {
+            updatedProducts.sort((a, b) => b.popularity - a.popularity);
+        } else if (sortBy === "Sort by average rating") {
+            updatedProducts.sort((a, b) => b.rating - a.rating);
+        } else if (sortBy === "Sort by price: low to high") {
+            updatedProducts.sort((a, b) => a.price - b.price);
+        } else if (sortBy === "Sort by price: high to low") {
+            updatedProducts.sort((a, b) => b.price - a.price);
+        }
+
+        // Paginate
+        // const totalItems = updatedProducts.length;
+        const startIndex = (currentPage - 1) * numberOfItems;
+        const paginatedProducts = updatedProducts.slice(startIndex, startIndex + numberOfItems);
+
+        setFilteredProducts(paginatedProducts);
+    }, [products, sortBy, value, searchTerm, numberOfItems, currentPage]);
+
+    const handlePageChange = (event, page) => {
+        setCurrentPage(page);
+    };
+    const handleSearch = (term) => {
+        setSearchTerm(term);
+    };
+
+
+    const maxPrice = Math.max(...products.map((product) => product.price));
+
+    const handleQuickView = (product) => {
+        setSelectedProduct(product);
+
+        setTimeout(() => {
+            const modalElement = document.getElementById('quick-view-product');
+            if (modalElement) {
+                const modal = new Modal(modalElement);
+                modal.show();
+            } else {
+                console.error("Modal element not found");
+            }
+        }, 0);
+    };
     return (
         <main id="main" className="site-primary">
             <div className="site-content">
@@ -44,45 +108,45 @@ const Shop = () => {
                                             <div className="site-checkbox-lists">
                                                 <div className="site-scroll ps">
                                                     <ul className="category__lists">
-                                                        {categories?.map((item, index) => (
-                                                            <li className="category__lists-item" key={index}>
+                                                        {categories?.map((category) => (
+                                                            <li className="category__lists-item" key={category?._id}>
                                                                 <a className="d-flex align-items-center" href="/">
                                                                     <input
-                                                                        name="product_cat[]"
-                                                                        value={item.value}
-                                                                        id={`checkbox-${index}`}
+                                                                        name="product"
+                                                                        value={category?.name}
+                                                                        id={`checkbox-${category?._id}`}
                                                                         type="checkbox"
                                                                     />
                                                                     <span
                                                                         onClick={() => {
-                                                                            const checkbox = document.getElementById(`checkbox-${index}`);
+                                                                            const checkbox = document.getElementById(`checkbox-${category?._id}`);
                                                                             checkbox.checked = !checkbox.checked;
                                                                         }}
                                                                     >
-                                                                        {item.title}
+                                                                        {category?.name}
                                                                     </span>
                                                                 </a>
-                                                                {item.submenu.length !== 0 && (
-                                                                    <FaPlus onClick={() => setActiveIndex(activeIndex === index ? null : index)} /> // Toggle submenu for clicked item
+                                                                {category?.subcategories?.length !== 0 && (
+                                                                    <FaPlus onClick={() => setActiveIndex(activeIndex === category?._id ? null : category?._id)} /> // Toggle submenu for clicked item
                                                                 )}
-                                                                {activeIndex === index && (
+                                                                {activeIndex === category?._id && (
                                                                     <ul className="submenu">
-                                                                        {item.submenu.map((subItem, subIndex) => (
+                                                                        {category?.subcategories?.map((subItem, subIndex) => (
                                                                             <li key={subIndex} className='submenu-item'>
-                                                                                <a className="dropdown-item d-flex align-items-center" href={subItem.link}>
+                                                                                <a className="dropdown-item d-flex align-items-center" href={subItem?.link}>
                                                                                     <input
-                                                                                        name={`sub_product_cat[]`}
-                                                                                        value={subItem.value}
-                                                                                        id={`sub-checkbox-${index}-${subIndex}`}
+                                                                                        name={`sub_product_cat`}
+                                                                                        value={subItem?.name}
+                                                                                        id={`sub-checkbox-${subItem?._id}-${subIndex}`}
                                                                                         type="checkbox"
                                                                                     />
                                                                                     <span
                                                                                         onClick={() => {
-                                                                                            const checkbox = document.getElementById(`sub-checkbox-${index}-${subIndex}`);
+                                                                                            const checkbox = document.getElementById(`sub-checkbox-${subItem?._id}-${subIndex}`);
                                                                                             checkbox.checked = !checkbox.checked;
                                                                                         }}
                                                                                     >
-                                                                                        {subItem.title}
+                                                                                        {subItem.name}
                                                                                     </span>
                                                                                 </a>
                                                                             </li>
@@ -100,13 +164,16 @@ const Shop = () => {
 
                                         <div className="product__price-filter">
                                             <h4 className="product__price-filter-title">Filter by price</h4>
-                                            <RangeSlider
+                                            <Slider
                                                 value={value}
-                                                onInput={setValue}
+                                                onChange={(e, newValue) => setValue(newValue)}
+                                                valueLabelDisplay="auto"
+                                                min={0}
+                                                max={maxPrice}
                                             />
                                             <div className="price_slider-amount">
                                                 <div className="price_label">
-                                                    Price: <span className="from">$0</span> — <span className="to">$70</span>
+                                                    Price: <span className="from">$0</span> — <span className="to">${maxPrice}</span>
                                                 </div>
                                                 <button type='submit' className="btn custom-btn">Filter</button>
                                             </div>
@@ -225,176 +292,85 @@ const Shop = () => {
                                         </div>
                                     </div>
                                 </div>
-
                                 <div className="filter__options">
-                                    <div className="shop-view-selector">
-                                        <Button className='active'>
-                                            <IoMenu size={34} />
-                                        </Button>
-
-                                        <Button>
-                                            <IoGrid />
-                                        </Button>
-                                        <Button>
-                                            <BsFillGrid3X3GapFill />
-                                        </Button>
-                                        <Button>
-                                            <TfiLayoutGrid4Alt />
-                                        </Button>
+                                    {/* Search Box */}
+                                    <div className="d-flex align-items-center col-7">
+                                        <TextField
+                                            label="Enter your product name..."
+                                            variant="outlined"
+                                            size="small"
+                                            onChange={(e) => handleSearch(e.target.value)}
+                                            sx={{ width: "100%" }}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <CgSearch />
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                        />
                                     </div>
+                                    {/* Sort By Select */}
+                                    <FormControl size="small" sx={{ minWidth: 150, ml: 2 }}>
+                                        <InputLabel id="sort-by-label">Sort By...</InputLabel>
+                                        <Select
+                                            labelId="sort-by-label"
+                                            value={sortBy}
+                                            onChange={(e) => setSortBy(e.target.value)}
+                                            label="Sort by..."
+                                        >
+                                            <MenuItem value="Sort by latest">Sort by Latest</MenuItem>
+                                            <MenuItem value="Sort by average rating">Average rating</MenuItem>
+                                            <MenuItem value="Sort by price: low to high">Price: low to high</MenuItem>
+                                            <MenuItem value="Sort by price: high to low">Price: high to low</MenuItem>
+                                        </Select>
+                                    </FormControl>
 
-                                    <div className="shop-view-filters">
-                                        <div className="dropdown">
-                                            <button
-                                                className="btn dropdown-toggle border-start"
-                                                type="button"
-                                                data-bs-toggle="dropdown"
-                                                aria-expanded="false"
-                                            >
-                                                {sortBy}
-                                            </button>
-                                            <ul className="dropdown-menu dropdown-menu-sort">
-                                                <li>
-                                                    <a
-                                                        className="dropdown-item"
-                                                        href="/"
-                                                        onClick={() => {
-                                                            setSortBy("Sort by lasted")
-                                                        }}
-                                                    >
-                                                        Sort by lasted
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        className="dropdown-item"
-                                                        href="/"
-                                                        onClick={() => {
-                                                            setSortBy("Sort by popularity")
-                                                        }}
-                                                    >
-                                                        Sort by popularity
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        className="dropdown-item"
-                                                        href="/"
-                                                        onClick={() => {
-                                                            setSortBy("Sort by average rating")
-                                                        }}
-                                                    >
-                                                        Sort by average rating
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        className="dropdown-item"
-                                                        href="/"
-                                                        onClick={() => {
-                                                            setSortBy("Sort by price: low to high")
-                                                        }}
-                                                    >
-                                                        Sort by price: low to high
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        className="dropdown-item"
-                                                        href="/"
-                                                        onClick={() => {
-                                                            setSortBy("Sort by price: high to low")
-                                                        }}
-                                                    >
-                                                        Sort by price: high to low
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <div className="dropdown">
-                                            <button
-                                                className="btn dropdown-toggle border-end border-start"
-                                                type="button"
-                                                data-bs-toggle="dropdown"
-                                                aria-expanded="false"
-                                            >
-                                                <span>Number items: </span> {numberOfItems}
-                                            </button>
-                                            <ul className="dropdown-menu dropdown-menu-items">
-                                                <li>
-                                                    <a
-                                                        className="dropdown-item"
-                                                        href="/"
-                                                        onClick={() => {
-                                                            setNumberOfItems(9);
-                                                        }}
-                                                    >
-                                                        9
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        className="dropdown-item"
-                                                        href="/"
-                                                        onClick={() => {
-                                                            setNumberOfItems(18);
-                                                        }}
-                                                    >
-                                                        18
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        className="dropdown-item"
-                                                        href="/"
-                                                        onClick={() => {
-                                                            setNumberOfItems(27);
-                                                        }}
-                                                    >
-                                                        27
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a
-                                                        className="dropdown-item"
-                                                        href="/"
-                                                        onClick={() => {
-                                                            setNumberOfItems(36);
-                                                        }}
-                                                    >
-                                                        36
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                    {/* Number of Items Select */}
+                                    <FormControl size="small" sx={{ minWidth: 150, ml: 2 }}>
+                                        <InputLabel id="number-of-items-label">Number of Items</InputLabel>
+                                        <Select
+                                            labelId="number-of-items-label"
+                                            value={numberOfItems}
+                                            onChange={(e) => setNumberOfItems(e.target.value)}
+                                            label="Number of Items"
+                                        >
+                                            {[8, 12, 16, 20].map((num) => (
+                                                <MenuItem key={num} value={num}>
+                                                    {num}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </div>
+                                {loading ? (
+                                    <p>Loading products...</p>
+                                ) : (
+                                    <div className="products d-flex flex-wrap justify-content-start align-items-center gap-2 ms-2">
+                                        {filteredProducts.length > 0 ? (
+                                            filteredProducts.map((product) => (
+                                                <Product key={product._id} product={product} onQuickView={handleQuickView} />
+                                            ))
+                                        ) : (
+                                            <p>No products found</p>
+                                        )}
                                     </div>
-
-                                </div>
-
-                                <div className="products d-flex flex-wrap border rounded">
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                    <Product />
-                                </div>
+                                )}
 
                                 <div className="pagination d-flex justify-content-center align-items-center">
-                                    <Pagination count={10} color="primary" />
+                                    <Pagination
+                                        count={Math.ceil(products.length / numberOfItems)} 
+                                        page={currentPage}
+                                        onChange={handlePageChange}
+                                        color="primary"
+                                    />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <QuickViewProduct product={selectedProduct} />
         </main>
     )
 }

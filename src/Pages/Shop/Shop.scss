@@ -319,29 +319,6 @@
                             background-color: var(--color-light);
                             border-radius: var(--size-border-radius);
 
-                            .shop-view-selector {
-                                display: flex;
-                                justify-content: flex-start;
-
-                                button {
-
-                                    display: inline-flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    font-size: 1.5rem;
-                                    color: var(--color-info);
-                                    background: none;
-                                    outline: none;
-
-                                    &:hover svg {
-                                        color: var(--color-text);
-                                    }
-                                }
-
-                                button.active {
-                                    color: var(--color-text);
-                                }
-                            }
 
                             .shop-view-filters {
                                 display: flex;
